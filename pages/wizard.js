@@ -21,7 +21,7 @@ import Step5 from "../components/WizardSteps/Step5.js";
 function WizardView() {
   return (
     <GridContainer justify="center">
-      <GridItem xs={12} sm={8}>
+      <GridItem item={true} xs={12} sm={8}>
         <Wizard
           validate
           steps={[

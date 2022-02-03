@@ -8,6 +8,8 @@ import FormCard from "../components/FormCard";
 import Wizard from "../components/Wizard.js";
 import GridContainer from "../components/Grid/GridContainer.js";
 import GridItem from "../components/Grid/GridItem.js";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 import Step1 from "../components/WizardSteps/Step1.js";
 import Step2 from "../components/WizardSteps/Step2.js";
@@ -29,7 +31,7 @@ export default function Home() {
         <div className='row'>
           {/* <FormCard></FormCard>    */}
           <GridContainer justify="center">
-      <GridItem xs={12} sm={11}>
+      <GridItem item={true} xs={12} sm={11}>
         <Wizard
           validate
           steps={[

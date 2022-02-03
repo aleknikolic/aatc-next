@@ -7,7 +7,7 @@ import Email from "@material-ui/icons/Email";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
+// import InputAdornment from "@material-ui/core/InputAdornment";
 
 // core components
 import GridContainer from "../Grid/GridContainer.js";
@@ -123,13 +123,13 @@ const Step1 = React.forwardRef((props, ref) => {
   }));
   const { classes } = props;
   return (
-    <GridContainer justify="center" sm={8} className={classes.outer}>
-      <GridItem xs={12} sm={12}>
+    <GridContainer justify="center" item sm={8} className={classes.outer}>
+      <GridItem item={true} xs={12} sm={12}>
         <h4 className={classes.infoText}>
           Let{"'"}s start with the basic information (with validation)
         </h4>
       </GridItem>
-      <GridItem xs={12} sm={12}>
+      <GridItem item={true} xs={12} sm={12}>
       <CustomInput
           labelText="Company"
           id="company"
@@ -138,7 +138,7 @@ const Step1 = React.forwardRef((props, ref) => {
           }}
         />
       </GridItem>
-      <GridItem xs={12} sm={6}>
+      <GridItem item={true} xs={12} sm={6}>
         <CustomInput
           success={firstnameState === "success"}
           error={firstnameState === "error"}
@@ -153,15 +153,10 @@ const Step1 = React.forwardRef((props, ref) => {
           }}
           inputProps={{
             onChange: (event) => change(event, "firstname", "length", 3),
-            endAdornment: (
-              <InputAdornment position="end" className={classes.inputAdornment}>
-                {/* <Face className={classes.inputAdornmentIcon} /> */}
-              </InputAdornment>
-            ),
           }}
         />
         </GridItem>
-        <GridItem xs={12} sm={6}>
+        <GridItem item={true} xs={12} sm={6}>
         <CustomInput
           success={lastnameState === "success"}
           error={lastnameState === "error"}
@@ -176,15 +171,10 @@ const Step1 = React.forwardRef((props, ref) => {
           }}
           inputProps={{
             onChange: (event) => change(event, "lastname", "length", 3),
-            endAdornment: (
-              <InputAdornment position="end" className={classes.inputAdornment}>
-                {/* <RecordVoiceOver className={classes.inputAdornmentIcon} /> */}
-              </InputAdornment>
-            ),
           }}
         />
       </GridItem>
-      <GridItem xs={12} sm={6} md={6} lg={6}>
+      <GridItem item={true} xs={12} sm={6} md={6} lg={6}>
         <CustomInput
           success={emailState === "success"}
           error={emailState === "error"}
@@ -199,15 +189,10 @@ const Step1 = React.forwardRef((props, ref) => {
           }}
           inputProps={{
             onChange: (event) => change(event, "email", "email"),
-            endAdornment: (
-              <InputAdornment position="end" className={classes.inputAdornment}>
-                {/* <Email className={classes.inputAdornmentIcon} /> */}
-              </InputAdornment>
-            ),
           }}
         />
          </GridItem>
-      <GridItem xs={12} sm={6} md={6} lg={6}>
+      <GridItem item={true} xs={12} sm={6} md={6} lg={6}>
         <CustomInput
           labelText="Phone"
           id="phone"

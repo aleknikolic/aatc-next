@@ -70,22 +70,22 @@ const Step2 = React.forwardRef((props, ref) => {
     <div className={styles.hidediv}>
       <h4 className={classes.infoText}>Are you renewing your license or is this a new license request?</h4>
       <GridContainer justify="center">
-        <GridItem xs={12} sm={12} md={12} lg={10}>
-          <GridContainer sm={8} className={classes.outer}>
-            <GridItem xs={12} sm={6}>
+        <GridItem item={true} xs={12} sm={12} md={12} lg={10}>
+          <GridContainer item sm={8} className={classes.outer}>
+            <GridItem item={true} xs={12} sm={6}>
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
                   onClick={() => setdesign(!design)}
                   checkedIcon={
-                    <i
+                    <i aria-hidden
                       className={
                         "fas fa-redo-alt " + classes.iconCheckboxIcon
                       }
                     />
                   }
                   icon={
-                    <i
+                    <i aria-hidden
                       className={
                         "fas fa-redo-alt " + classes.iconCheckboxIcon
                       }
@@ -99,7 +99,7 @@ const Step2 = React.forwardRef((props, ref) => {
                 <h6>Renew</h6>
               </div>
             </GridItem>
-            {/* <GridItem xs={12} sm={4}>
+            {/* <GridItem item={true} xs={12} sm={4}>
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
@@ -122,18 +122,18 @@ const Step2 = React.forwardRef((props, ref) => {
                 <h6>Code</h6>
               </div>
             </GridItem> */}
-            <GridItem xs={12} sm={6}>
+            <GridItem item={true} xs={12} sm={6}>
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
                   onClick={() => setdevelop(!develop)}
                   checkedIcon={
-                    <i
+                    <i aria-hidden
                       className={"fas fa-plus " + classes.iconCheckboxIcon}
                     />
                   }
                   icon={
-                    <i
+                    <i aria-hidden
                       className={"fas fa-plus " + classes.iconCheckboxIcon}
                     />
                   }

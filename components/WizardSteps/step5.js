@@ -70,20 +70,20 @@ const Step2 = React.forwardRef((props, ref) => {
     <div className={styles.hidediv}>
       <h4 className={classes.infoText}>Thank you for your business.</h4>
       <GridContainer justify="center">
-        <GridItem xs={12} sm={12} md={12} lg={10}>
-          <GridContainer sm={8} className={classes.outer}>
-            <GridItem xs={12} sm={12}>
+        <GridItem item={true} xs={12} sm={12} md={12} lg={10}>
+          <GridContainer item sm={8} className={classes.outer}>
+            <GridItem item={true} xs={12} sm={12}>
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
                   onClick={() => setdevelop(!develop)}
                   checkedIcon={
-                    <i
+                    <i aria-hidden
                       className={"fas fa-check-circle " + classes.iconCheckboxIcon}
                     />
                   }
                   icon={
-                    <i
+                    <i aria-hidden
                       className={"fas fa-check-circle " + classes.iconCheckboxIcon}
                     />
                   }

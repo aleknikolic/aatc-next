@@ -49,10 +49,10 @@ const Step4 = React.forwardRef((props, ref) => {
   const { classes } = props;
   return (
     <GridContainer justify="center" className={styles.hidediv}>
-      <GridItem xs={12} sm={12}>
+      <GridItem item={true} xs={12} sm={12}>
         <h4 className={classes.infoText}>Are you living in a nice area?</h4>
       </GridItem>
-      <GridItem xs={12} sm={7}>
+      <GridItem item={true} xs={12} sm={7}>
         <CustomInput
           labelText="Street Name"
           id="streetname"
@@ -61,7 +61,7 @@ const Step4 = React.forwardRef((props, ref) => {
           }}
         />
       </GridItem>
-      <GridItem xs={12} sm={3}>
+      <GridItem item={true} xs={12} sm={3}>
         <CustomInput
           labelText="Street No."
           id="streetno"
@@ -70,7 +70,7 @@ const Step4 = React.forwardRef((props, ref) => {
           }}
         />
       </GridItem>
-      <GridItem xs={12} sm={5}>
+      <GridItem item={true} xs={12} sm={5}>
         <CustomInput
           labelText="City"
           id="city"
@@ -79,7 +79,7 @@ const Step4 = React.forwardRef((props, ref) => {
           }}
         />
       </GridItem>
-      <GridItem xs={12} sm={5}>
+      <GridItem item={true} xs={12} sm={5}>
         <FormControl fullWidth className={classes.selectFormControl}>
           <InputLabel htmlFor="simple-select-3" className={classes.selectLabel}>
             Choose City

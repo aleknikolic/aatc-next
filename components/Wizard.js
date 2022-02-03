@@ -187,7 +187,6 @@ class Wizard extends React.Component {
   }
   refreshAnimation(index) {
     var total = this.props.steps.length;
-    console.log("check total", total);
     var li_width = 100 / total;
     var total_steps = this.props.steps.length;
     var move_distance =
