@@ -68,73 +68,23 @@ const Step2 = React.forwardRef((props, ref) => {
   const { classes } = props;
   return (
     <div className={styles.hidediv}>
-      <h4 className={classes.infoText}>Are you renewing your license or is this a new license request?</h4>
+      <h4 className={classes.infoText}>Thank you for your business.</h4>
       <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={12} lg={10}>
           <GridContainer sm={8} className={classes.outer}>
-            <GridItem xs={12} sm={6}>
-              <div className={classes.choiche}>
-                <Checkbox
-                  tabIndex={-1}
-                  onClick={() => setdesign(!design)}
-                  checkedIcon={
-                    <i
-                      className={
-                        "fas fa-redo-alt " + classes.iconCheckboxIcon
-                      }
-                    />
-                  }
-                  icon={
-                    <i
-                      className={
-                        "fas fa-redo-alt " + classes.iconCheckboxIcon
-                      }
-                    />
-                  }
-                  classes={{
-                    checked: classes.iconCheckboxChecked,
-                    root: classes.iconCheckbox,
-                  }}
-                />
-                <h6>Renew</h6>
-              </div>
-            </GridItem>
-            {/* <GridItem xs={12} sm={4}>
-              <div className={classes.choiche}>
-                <Checkbox
-                  tabIndex={-1}
-                  onClick={() => setcode(!code)}
-                  checkedIcon={
-                    <i
-                      className={"fas fa-terminal " + classes.iconCheckboxIcon}
-                    />
-                  }
-                  icon={
-                    <i
-                      className={"fas fa-terminal " + classes.iconCheckboxIcon}
-                    />
-                  }
-                  classes={{
-                    checked: classes.iconCheckboxChecked,
-                    root: classes.iconCheckbox,
-                  }}
-                />
-                <h6>Code</h6>
-              </div>
-            </GridItem> */}
-            <GridItem xs={12} sm={6}>
+            <GridItem xs={12} sm={12}>
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
                   onClick={() => setdevelop(!develop)}
                   checkedIcon={
                     <i
-                      className={"fas fa-plus " + classes.iconCheckboxIcon}
+                      className={"fas fa-check-circle " + classes.iconCheckboxIcon}
                     />
                   }
                   icon={
                     <i
-                      className={"fas fa-plus " + classes.iconCheckboxIcon}
+                      className={"fas fa-check-circle " + classes.iconCheckboxIcon}
                     />
                   }
                   classes={{
@@ -142,7 +92,7 @@ const Step2 = React.forwardRef((props, ref) => {
                     root: classes.iconCheckbox,
                   }}
                 />
-                <h6>New</h6>
+                {/* <h6>New</h6> */}
               </div>
               <FormControl fullWidth className={classes.selectFormControl}>
                 {/* <InputLabel

@@ -149,12 +149,12 @@ import {
         ", 0.4)",
     },
     rose: {
-      backgroundColor: roseColor[0],
+      backgroundColor: warningColor[0],
       boxShadow:
         "0 4px 20px 0px rgba(" +
         hexToRgb(blackColor) +
         ", 0.14), 0 7px 10px -5px rgba(" +
-        hexToRgb(roseColor[0]) +
+        hexToRgb(warningColor[0]) +
         ", 0.4)",
     },
     footer: {

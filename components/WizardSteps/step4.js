@@ -25,7 +25,7 @@ const style = {
   ...customSelectStyle,
 };
 
-const Step3 = React.forwardRef((props, ref) => {
+const Step4 = React.forwardRef((props, ref) => {
   const [simpleSelect, setsimpleSelect] = React.useState("");
   const sendState = () => {
     return {
@@ -131,8 +131,8 @@ const Step3 = React.forwardRef((props, ref) => {
   );
 });
 
-Step3.propTypes = {
+Step4.propTypes = {
   classes: PropTypes.object,
 };
 
-export default withStyles(style)(Step3);
+export default withStyles(style)(Step4);

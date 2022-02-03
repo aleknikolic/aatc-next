@@ -1,21 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-// @material-ui/core components
+// @material-ui/icons
+import Face from "@material-ui/icons/Face";
+import RecordVoiceOver from "@material-ui/icons/RecordVoiceOver";
+import Email from "@material-ui/icons/Email";
 
-import styles from '../../styles/Styles.module.scss';
+// @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Checkbox from "@material-ui/core/Checkbox";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 // core components
 import GridContainer from "../Grid/GridContainer.js";
 import GridItem from "../Grid/GridItem.js";
-
-import customSelectStyle from "../../assets/js/customSelectStyle.js";
-import customCheckboxRadioSwitch from "../../assets/js/customCheckboxRadioSwitch.js";
+import PictureUpload from "../CustomUpload/PictureUpload.js";
+import CustomInput from "../CustomInput/CustomInput.js";
 
 const style = {
   infoText: {
@@ -26,33 +24,104 @@ const style = {
   inputAdornmentIcon: {
     color: "#555",
   },
-  choiche: {
-    textAlign: "center",
-    cursor: "pointer",
-    marginTop: "20px",
+  inputAdornment: {
+    position: "relative",
   },
-  ...customSelectStyle,
-  ...customCheckboxRadioSwitch,
+  outer: {
+    margin: "0 auto !important",
+  },
 };
 
-const Step2 = React.forwardRef((props, ref) => {
-  const [simpleSelect, setsimpleSelect] = React.useState("");
-  const [design, setdesign] = React.useState(false);
-  const [code, setcode] = React.useState(false);
-  const [develop, setdevelop] = React.useState(false);
+const Step1 = React.forwardRef((props, ref) => {
+  const [firstname, setfirstname] = React.useState("");
+  const [firstnameState, setfirstnameState] = React.useState("");
+  const [company, setcompany] = React.useState("");
+  const [companyState, setcompanyState] = React.useState("");
+  const [lastname, setlastname] = React.useState("");
+  const [lastnameState, setlastnameState] = React.useState("");
+  const [email, setemail] = React.useState("");
+  const [emailState, setemailState] = React.useState("");
+  const stateFunctions = {
+    setemailState: (value) => setemailState(value),
+    setemail: (value) => setemail(value),
+    setlastnameState: (value) => setlastnameState(value),
+    setlastname: (value) => setlastname(value),
+    setfirstnameState: (value) => setfirstnameState(value),
+    setfirstname: (value) => setfirstname(value),
+    setcompanyState: (value) => setcompanyState(value),
+    setcompany: (value) => setcompany(value),
+  };
   const sendState = () => {
     return {
-      simpleSelect,
-      design,
-      code,
-      develop,
+      firstname,
+      firstnameState,
+      company,
+      companyState,
+      lastname,
+      lastnameState,
+      email,
+      emailState,
     };
   };
-  const handleSimple = (event) => {
-    setsimpleSelect(event.target.value);
+  // function that returns true if value is email, false otherwise
+  const verifyEmail = (value) => {
+    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailRex.test(value)) {
+      return true;
+    }
+    return false;
+  };
+  // function that verifies if a string has a given length or not
+  const verifyLength = (value, length) => {
+    if (value.length >= length) {
+      return true;
+    }
+    return false;
+  };
+  const change = (event, stateName, type, stateNameEqualTo, maxValue) => {
+    switch (type) {
+      case "email":
+        if (verifyEmail(event.target.value)) {
+          stateFunctions["set" + stateName + "State"]("success");
+        } else {
+          stateFunctions["set" + stateName + "State"]("error");
+        }
+        break;
+      case "length":
+        if (verifyLength(event.target.value, stateNameEqualTo)) {
+          stateFunctions["set" + stateName + "State"]("success");
+        } else {
+          stateFunctions["set" + stateName + "State"]("error");
+        }
+        break;
+      default:
+        break;
+    }
+    stateFunctions["set" + stateName](event.target.value);
   };
   const isValidated = () => {
-    return true;
+    if (
+      companyState === "success" &&
+      firstnameState === "success" &&
+      lastnameState === "success" &&
+      emailState === "success"
+    ) {
+      return true;
+    } else {
+      if (companyState !== "success") {
+        setcompanyState("error");
+      }
+      if (firstnameState !== "success") {
+        setfirstnameState("error");
+      }
+      if (lastnameState !== "success") {
+        setlastnameState("error");
+      }
+      if (emailState !== "success") {
+        setemailState("error");
+      }
+    }
+    return false;
   };
   React.useImperativeHandle(ref, () => ({
     isValidated: () => {
@@ -64,142 +133,136 @@ const Step2 = React.forwardRef((props, ref) => {
   }));
   const { classes } = props;
   return (
-    <div className={styles.hidediv}>
-      <h4 className={classes.infoText}>What are you doing? (checkboxes)</h4>
-      <GridContainer justify="center">
-        <GridItem xs={12} sm={12} md={12} lg={10}>
-          <GridContainer>
-            <GridItem xs={12} sm={4}>
-              <div className={classes.choiche}>
-                <Checkbox
-                  tabIndex={-1}
-                  onClick={() => setdesign(!design)}
-                  checkedIcon={
-                    <i
-                      className={
-                        "fas fa-pencil-alt " + classes.iconCheckboxIcon
-                      }
-                    />
-                  }
-                  icon={
-                    <i
-                      className={
-                        "fas fa-pencil-alt " + classes.iconCheckboxIcon
-                      }
-                    />
-                  }
-                  classes={{
-                    checked: classes.iconCheckboxChecked,
-                    root: classes.iconCheckbox,
-                  }}
-                />
-                <h6>Design</h6>
-              </div>
-            </GridItem>
-            <GridItem xs={12} sm={4}>
-              <div className={classes.choiche}>
-                <Checkbox
-                  tabIndex={-1}
-                  onClick={() => setcode(!code)}
-                  checkedIcon={
-                    <i
-                      className={"fas fa-terminal " + classes.iconCheckboxIcon}
-                    />
-                  }
-                  icon={
-                    <i
-                      className={"fas fa-terminal " + classes.iconCheckboxIcon}
-                    />
-                  }
-                  classes={{
-                    checked: classes.iconCheckboxChecked,
-                    root: classes.iconCheckbox,
-                  }}
-                />
-                <h6>Code</h6>
-              </div>
-            </GridItem>
-            <GridItem xs={12} sm={4}>
-              <div className={classes.choiche}>
-                <Checkbox
-                  tabIndex={-1}
-                  onClick={() => setdevelop(!develop)}
-                  checkedIcon={
-                    <i
-                      className={"fas fa-laptop " + classes.iconCheckboxIcon}
-                    />
-                  }
-                  icon={
-                    <i
-                      className={"fas fa-laptop " + classes.iconCheckboxIcon}
-                    />
-                  }
-                  classes={{
-                    checked: classes.iconCheckboxChecked,
-                    root: classes.iconCheckbox,
-                  }}
-                />
-                <h6>Develop</h6>
-              </div>
-              <FormControl fullWidth className={classes.selectFormControl}>
-                <InputLabel
-                  htmlFor="simple-select-2"
-                  className={classes.selectLabel}
-                >
-                  Choose City
-                </InputLabel>
-                <Select
-                  MenuProps={{
-                    className: classes.selectMenu,
-                  }}
-                  classes={{
-                    select: classes.select,
-                  }}
-                  value={simpleSelect}
-                  onChange={handleSimple}
-                  inputProps={{
-                    name: "simpleSelect",
-                    id: "simple-select-2",
-                  }}
-                >
-                  <MenuItem
-                    disabled
-                    classes={{
-                      root: classes.selectMenuItem,
-                    }}
-                  >
-                    Choose City
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected,
-                    }}
-                    value="2"
-                  >
-                    Paris
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected,
-                    }}
-                    value="3"
-                  >
-                    Bucharest
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </GridItem>
-          </GridContainer>
+    <GridContainer justify="center" sm={8} className={classes.outer}>
+      <GridItem xs={12} sm={12}>
+        <h4 className={classes.infoText}>
+          Information for the Licensed User
+        </h4>
+      </GridItem>
+      {/* <GridItem xs={12} sm={4}>
+        <PictureUpload />
+      </GridItem> */}
+      <GridItem xs={12} sm={12}>
+      <CustomInput
+          success={companyState === "success"}
+          error={companyState === "error"}
+          labelText={
+            <span>
+              Company
+            </span>
+          }
+          id="company"
+          formControlProps={{
+            fullWidth: true,
+          }}
+          inputProps={{
+            onChange: (event) => change(event, "company", "length", 8),
+            endAdornment: (
+              <InputAdornment position="end" className={classes.inputAdornment}>
+                {/* { <Face className={classes.inputAdornmentIcon} />} */}
+              </InputAdornment>
+            ),
+          }}
+        />
+      </GridItem>
+      <GridItem xs={12} sm={6}>
+        <CustomInput
+          success={firstnameState === "success"}
+          error={firstnameState === "error"}
+          labelText={
+            <span>
+              First Name
+            </span>
+          }
+          id="firstname"
+          formControlProps={{
+            fullWidth: true,
+          }}
+          inputProps={{
+            onChange: (event) => change(event, "firstname", "length", 3),
+            endAdornment: (
+              <InputAdornment position="end" className={classes.inputAdornment}>
+                {/* <Face className={classes.inputAdornmentIcon} /> */}
+              </InputAdornment>
+            ),
+          }}
+        />
         </GridItem>
-      </GridContainer>
-    </div>
+        <GridItem xs={12} sm={6}>
+        <CustomInput
+          success={lastnameState === "success"}
+          error={lastnameState === "error"}
+          labelText={
+            <span>
+              Last Name
+            </span>
+          }
+          id="lastname"
+          formControlProps={{
+            fullWidth: true,
+          }}
+          inputProps={{
+            onChange: (event) => change(event, "lastname", "length", 3),
+            endAdornment: (
+              <InputAdornment position="end" className={classes.inputAdornment}>
+                {/* <RecordVoiceOver className={classes.inputAdornmentIcon} /> */}
+              </InputAdornment>
+            ),
+          }}
+        />
+      </GridItem>
+      <GridItem xs={12} sm={6} md={6} lg={6}>
+        <CustomInput
+          success={emailState === "success"}
+          error={emailState === "error"}
+          labelText={
+            <span>
+              Email 
+            </span>
+          }
+          id="email"
+          formControlProps={{
+            fullWidth: true,
+          }}
+          inputProps={{
+            onChange: (event) => change(event, "email", "email"),
+            endAdornment: (
+              <InputAdornment position="end" className={classes.inputAdornment}>
+                {/* <Email className={classes.inputAdornmentIcon} /> */}
+              </InputAdornment>
+            ),
+          }}
+        />
+        </GridItem>
+      <GridItem xs={12} sm={6} md={6} lg={6}>
+        <CustomInput
+          success={emailState === "success"}
+          error={emailState === "error"}
+          labelText={
+            <span>
+              Phone Number
+            </span>
+          }
+          id="phone"
+          formControlProps={{
+            fullWidth: true,
+          }}
+          inputProps={{
+            onChange: (event) => change(event, "phone", "phone"),
+            endAdornment: (
+              <InputAdornment position="end" className={classes.inputAdornment}>
+                {/* <Email className={classes.inputAdornmentIcon} /> */}
+              </InputAdornment>
+            ),
+          }}
+        />
+      </GridItem>
+    </GridContainer>
   );
 });
 
-Step2.propTypes = {
+Step1.propTypes = {
   classes: PropTypes.object,
 };
 
-export default withStyles(style)(Step2);
+export default withStyles(style)(Step1);

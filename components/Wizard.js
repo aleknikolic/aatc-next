@@ -187,6 +187,7 @@ class Wizard extends React.Component {
   }
   refreshAnimation(index) {
     var total = this.props.steps.length;
+    console.log("check total", total);
     var li_width = 100 / total;
     var total_steps = this.props.steps.length;
     var move_distance =
@@ -217,7 +218,6 @@ class Wizard extends React.Component {
     ) {
       move_distance += 8;
     }
-
     if (mobile_device) {
       vertical_level = parseInt(index / 2, 10);
       vertical_level = vertical_level * 38;
@@ -239,7 +239,7 @@ class Wizard extends React.Component {
             <h3 className={classes.title}>{title}</h3>
             <h5 className={classes.subtitle}>{subtitle}</h5>
             <p>Please begin by answering the questions below. Payment can be made at the end of the registration form.</p>
-            <p>check</p>
+            {/* <p>check</p> */}
 
           </div>
           <div className={classes.wizardNavigation}>

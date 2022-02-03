@@ -13,6 +13,8 @@ import GridItem from "../components/Grid/GridItem.js";
 import Step1 from "../components/WizardSteps/Step1.js";
 import Step2 from "../components/WizardSteps/Step2.js";
 import Step3 from "../components/WizardSteps/Step3.js";
+import Step4 from "../components/WizardSteps/Step4.js";
+import Step5 from "../components/WizardSteps/Step5.js";
 
 // import Admin from "layouts/Admin.js";
 
@@ -23,9 +25,11 @@ function WizardView() {
         <Wizard
           validate
           steps={[
-            { stepName: "About", stepComponent: Step1, stepId: "about" },
-            { stepName: "Account", stepComponent: Step2, stepId: "account" },
-            { stepName: "Address", stepComponent: Step3, stepId: "address" },
+            { stepName: "Welcome", stepComponent: Step1, stepId: "welcome" },
+            { stepName: "Registeration", stepComponent: Step2, stepId: "registeration" },
+            { stepName: "Type", stepComponent: Step3, stepId: "type" },
+            { stepName: "Payment", stepComponent: Step4, stepId: "payment" },
+            { stepName: "Thank You", stepComponent: Step5, stepId: "thankyou" },
           ]}
           title="Build Your Profile"
           subtitle="This information will let us know more about you."
