@@ -148,9 +148,9 @@ const customCheckboxRadioSwitch = {
     },
   },
   iconCheckboxChecked: {
-    color: roseColor[0],
+    color: "#ff9800",
     "& > span:first-child": {
-      borderColor: roseColor[0],
+      borderColor: "#ff9800",
     },
   },
   iconCheckboxIcon: {

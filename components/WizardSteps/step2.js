@@ -35,8 +35,6 @@ const style = {
 const Step1 = React.forwardRef((props, ref) => {
   const [firstname, setfirstname] = React.useState("");
   const [firstnameState, setfirstnameState] = React.useState("");
-  const [company, setcompany] = React.useState("");
-  const [companyState, setcompanyState] = React.useState("");
   const [lastname, setlastname] = React.useState("");
   const [lastnameState, setlastnameState] = React.useState("");
   const [email, setemail] = React.useState("");
@@ -48,15 +46,11 @@ const Step1 = React.forwardRef((props, ref) => {
     setlastname: (value) => setlastname(value),
     setfirstnameState: (value) => setfirstnameState(value),
     setfirstname: (value) => setfirstname(value),
-    setcompanyState: (value) => setcompanyState(value),
-    setcompany: (value) => setcompany(value),
   };
   const sendState = () => {
     return {
       firstname,
       firstnameState,
-      company,
-      companyState,
       lastname,
       lastnameState,
       email,
@@ -101,16 +95,12 @@ const Step1 = React.forwardRef((props, ref) => {
   };
   const isValidated = () => {
     if (
-      companyState === "success" &&
       firstnameState === "success" &&
       lastnameState === "success" &&
       emailState === "success"
     ) {
       return true;
     } else {
-      if (companyState !== "success") {
-        setcompanyState("error");
-      }
       if (firstnameState !== "success") {
         setfirstnameState("error");
       }
@@ -136,32 +126,15 @@ const Step1 = React.forwardRef((props, ref) => {
     <GridContainer justify="center" sm={8} className={classes.outer}>
       <GridItem xs={12} sm={12}>
         <h4 className={classes.infoText}>
-          Information for the Licensed User
+          Let{"'"}s start with the basic information (with validation)
         </h4>
       </GridItem>
-      {/* <GridItem xs={12} sm={4}>
-        <PictureUpload />
-      </GridItem> */}
       <GridItem xs={12} sm={12}>
       <CustomInput
-          success={companyState === "success"}
-          error={companyState === "error"}
-          labelText={
-            <span>
-              Company
-            </span>
-          }
+          labelText="Company"
           id="company"
           formControlProps={{
             fullWidth: true,
-          }}
-          inputProps={{
-            onChange: (event) => change(event, "company", "length", 8),
-            endAdornment: (
-              <InputAdornment position="end" className={classes.inputAdornment}>
-                {/* { <Face className={classes.inputAdornmentIcon} />} */}
-              </InputAdornment>
-            ),
           }}
         />
       </GridItem>
@@ -171,7 +144,7 @@ const Step1 = React.forwardRef((props, ref) => {
           error={firstnameState === "error"}
           labelText={
             <span>
-              First Name
+              First Name <small>(required)</small>
             </span>
           }
           id="firstname"
@@ -194,7 +167,7 @@ const Step1 = React.forwardRef((props, ref) => {
           error={lastnameState === "error"}
           labelText={
             <span>
-              Last Name
+              Last Name <small>(required)</small>
             </span>
           }
           id="lastname"
@@ -217,7 +190,7 @@ const Step1 = React.forwardRef((props, ref) => {
           error={emailState === "error"}
           labelText={
             <span>
-              Email 
+              Email <small>(required)</small>
             </span>
           }
           id="email"
@@ -233,27 +206,13 @@ const Step1 = React.forwardRef((props, ref) => {
             ),
           }}
         />
-        </GridItem>
+         </GridItem>
       <GridItem xs={12} sm={6} md={6} lg={6}>
         <CustomInput
-          success={emailState === "success"}
-          error={emailState === "error"}
-          labelText={
-            <span>
-              Phone Number
-            </span>
-          }
+          labelText="Phone"
           id="phone"
           formControlProps={{
             fullWidth: true,
-          }}
-          inputProps={{
-            onChange: (event) => change(event, "phone", "phone"),
-            endAdornment: (
-              <InputAdornment position="end" className={classes.inputAdornment}>
-                {/* <Email className={classes.inputAdornmentIcon} /> */}
-              </InputAdornment>
-            ),
           }}
         />
       </GridItem>

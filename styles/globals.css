@@ -544,7 +544,7 @@ output {
   .label.label-danger {
     background-color: #f44336; }
   .label.label-rose {
-    background-color: #e91e63; }
+    background-color: #ff9800; }
 
 .form-control,
 .form-group .form-control {
@@ -612,7 +612,7 @@ output {
   .form-group.is-focused.form-danger .form-control {
     background-image: linear-gradient(#f44336, #f44336), linear-gradient(#D2D2D2, #D2D2D2); }
   .form-group.is-focused.form-rose .form-control {
-    background-image: linear-gradient(#e91e63, #e91e63), linear-gradient(#D2D2D2, #D2D2D2); }
+    background-image: linear-gradient(#ff9800, #ff9800), linear-gradient(#D2D2D2, #D2D2D2); }
   .form-group.is-focused.form-white .form-control {
     background-image: linear-gradient(#FFFFFF, #FFFFFF), linear-gradient(#D2D2D2, #D2D2D2); }
   .form-group.is-focused.label-placeholder label,
