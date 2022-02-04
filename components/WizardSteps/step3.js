@@ -39,20 +39,23 @@ const style = {
 };
 
 const Step2 = React.forwardRef((props, ref) => {
-  const [simpleSelect, setsimpleSelect] = React.useState("");
-  const [design, setdesign] = React.useState(false);
-  const [code, setcode] = React.useState(false);
-  const [develop, setdevelop] = React.useState(false);
+  const [custodial, setcustodial] = React.useState("");
+  const [hvac, sethvac] = React.useState(false);
+  const [engg, setengg] = React.useState(false);
+  const [mep, setmep] = React.useState(false);
+  const [construction, setconstruction] = React.useState(false);
+  const [firealarm, setfirealarm] = React.useState(false);
+  const [other, setother] = React.useState(false);
   const sendState = () => {
     return {
-      simpleSelect,
-      design,
-      code,
-      develop,
+      custodial,
+      hvac,
+      engg,
+      mep,
+      construction,
+      firealarm,
+      other,
     };
-  };
-  const handleSimple = (event) => {
-    setsimpleSelect(event.target.value);
   };
   const isValidated = () => {
     return true;
@@ -76,7 +79,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdesign(!design)}
+                  onClick={() => setcustodial(!custodial)}
                   checkedIcon={
                     <i aria-hidden
                       className={
@@ -103,7 +106,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdesign(!design)}
+                  onClick={() => sethvac(!hvac)}
                   checkedIcon={
                     <i aria-hidden
                       className={
@@ -130,7 +133,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdesign(!design)}
+                  onClick={() => setengg(!engg)}
                   checkedIcon={
                     <i aria-hidden
                       className={
@@ -157,7 +160,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdesign(!design)}
+                  onClick={() => setmep(!mep)}
                   checkedIcon={
                     <i aria-hidden
                       className={
@@ -184,7 +187,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdesign(!design)}
+                  onClick={() => setconstruction(!construction)}
                   checkedIcon={
                     <i aria-hidden
                       className={
@@ -211,7 +214,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdesign(!design)}
+                  onClick={() => setfirealarm(!firealarm)}
                   checkedIcon={
                     <i aria-hidden
                       className={
@@ -261,7 +264,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdevelop(!develop)}
+                  onClick={() => setother(!other)}
                   checkedIcon={
                     <i aria-hidden
                       className={"fas fa-tools " + classes.iconCheckboxIcon}

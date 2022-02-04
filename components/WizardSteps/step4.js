@@ -1,20 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-// @material-ui/core components
 
-import styles from '../../styles/Styles.module.scss';
+// @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
+// import InputAdornment from "@material-ui/core/InputAdornment";
 
 // core components
-import CustomInput from "../CustomInput/CustomInput.js";
 import GridContainer from "../Grid/GridContainer.js";
 import GridItem from "../Grid/GridItem.js";
 
-import customSelectStyle from "../../assets/js/customSelectStyle.js";
+
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+import CheckoutForm from '../CheckoutForm.js';
+
+const stripePromise = loadStripe('pk_test_c8V2s9WTAzMvx814xcIc8OFD'); 
 
 const style = {
   infoText: {
@@ -22,21 +22,42 @@ const style = {
     margin: "10px 0 30px",
     textAlign: "center",
   },
-  ...customSelectStyle,
+  inputAdornmentIcon: {
+    color: "#555",
+  },
+  inputAdornment: {
+    position: "relative",
+  },
+  outer: {
+    margin: "0 auto !important",
+  },
 };
 
 const Step4 = React.forwardRef((props, ref) => {
-  const [simpleSelect, setsimpleSelect] = React.useState("");
+  const [stripe, setstripe] = React.useState("");
+  const [stripeState, setstripeState] = React.useState("");
+  const stateFunctions = {
+    setstripeState: (value) => setstripeState(value),
+    setstripe: (value) => setstripe(value),
+  };
   const sendState = () => {
     return {
-      simpleSelect,
+      stripe,
+      stripeState,
     };
   };
-  const handleSimple = (event) => {
-    setsimpleSelect(event.target.value);
-  };
+  // function that returns true if value is email, false otherwise
   const isValidated = () => {
-    return true;
+    if (
+      stripeState === "success"
+    ) {
+      return true;
+    } else {
+      if (stripeState !== "success") {
+        setstripeState("error");
+      }
+    }
+    return false;
   };
   React.useImperativeHandle(ref, () => ({
     isValidated: () => {
@@ -48,86 +69,19 @@ const Step4 = React.forwardRef((props, ref) => {
   }));
   const { classes } = props;
   return (
-    <GridContainer justify="center" className={styles.hidediv}>
+    <Elements stripe={stripePromise}>
+<GridContainer justify="center" item sm={9} className={classes.outer}>
       <GridItem item={true} xs={12} sm={12}>
-        <h4 className={classes.infoText}>Are you living in a nice area?</h4>
+        <h4 className={classes.infoText}>
+          Let{"'"}s start with the basic information (with validation)
+        </h4>
       </GridItem>
-      <GridItem item={true} xs={12} sm={7}>
-        <CustomInput
-          labelText="Street Name"
-          id="streetname"
-          formControlProps={{
-            fullWidth: true,
-          }}
-        />
-      </GridItem>
-      <GridItem item={true} xs={12} sm={3}>
-        <CustomInput
-          labelText="Street No."
-          id="streetno"
-          formControlProps={{
-            fullWidth: true,
-          }}
-        />
-      </GridItem>
-      <GridItem item={true} xs={12} sm={5}>
-        <CustomInput
-          labelText="City"
-          id="city"
-          formControlProps={{
-            fullWidth: true,
-          }}
-        />
-      </GridItem>
-      <GridItem item={true} xs={12} sm={5}>
-        <FormControl fullWidth className={classes.selectFormControl}>
-          <InputLabel htmlFor="simple-select-3" className={classes.selectLabel}>
-            Choose City
-          </InputLabel>
-          <Select
-            MenuProps={{
-              className: classes.selectMenu,
-            }}
-            classes={{
-              select: classes.select,
-            }}
-            value={simpleSelect}
-            onChange={handleSimple}
-            inputProps={{
-              name: "simpleSelect",
-              id: "simple-select-3",
-            }}
-          >
-            <MenuItem
-              disabled
-              classes={{
-                root: classes.selectMenuItem,
-              }}
-            >
-              Country
-            </MenuItem>
-            <MenuItem
-              classes={{
-                root: classes.selectMenuItem,
-                selected: classes.selectMenuItemSelected,
-              }}
-              value="2"
-            >
-              France
-            </MenuItem>
-            <MenuItem
-              classes={{
-                root: classes.selectMenuItem,
-                selected: classes.selectMenuItemSelected,
-              }}
-              value="3"
-            >
-              Romania
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </GridItem>
-    </GridContainer>
+      <CheckoutForm
+      success={stripeState === "success"}
+      error={stripeState === "error"}
+      />
+</GridContainer>
+    </Elements>
   );
 });
 

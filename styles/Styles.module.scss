@@ -94,7 +94,18 @@ ul.nav{
 // .hidediv{
 //   display: none !important;
 // }
-
+.stripeform{
+  width: 100%;
+}
+.stripeform input{
+  width: 100%;
+    border-width: 0 0 1px 0;
+    border-color: #D3D3D3;
+}
+.stripeformitem{
+  line-height: 25px;
+  margin-bottom: 20px;
+}
 @media (max-width: 600px) {
   .grid {
     width: 100%;

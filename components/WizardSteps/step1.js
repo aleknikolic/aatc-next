@@ -39,20 +39,13 @@ const style = {
 };
 
 const Step2 = React.forwardRef((props, ref) => {
-  const [simpleSelect, setsimpleSelect] = React.useState("");
-  const [design, setdesign] = React.useState(false);
-  const [code, setcode] = React.useState(false);
-  const [develop, setdevelop] = React.useState(false);
+  const [renew, setrenew] = React.useState(false);
+  const [firstnew, setfirstnew] = React.useState(false);
   const sendState = () => {
     return {
-      simpleSelect,
-      design,
-      code,
-      develop,
+      renew,
+      firstnew,
     };
-  };
-  const handleSimple = (event) => {
-    setsimpleSelect(event.target.value);
   };
   const isValidated = () => {
     return true;
@@ -76,7 +69,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdesign(!design)}
+                  onClick={() => setrenew(!renew)}
                   checkedIcon={
                     <i aria-hidden
                       className={
@@ -99,34 +92,12 @@ const Step2 = React.forwardRef((props, ref) => {
                 <h6>Renew</h6>
               </div>
             </GridItem>
-            {/* <GridItem item={true} xs={12} sm={4}>
-              <div className={classes.choiche}>
-                <Checkbox
-                  tabIndex={-1}
-                  onClick={() => setcode(!code)}
-                  checkedIcon={
-                    <i
-                      className={"fas fa-terminal " + classes.iconCheckboxIcon}
-                    />
-                  }
-                  icon={
-                    <i
-                      className={"fas fa-terminal " + classes.iconCheckboxIcon}
-                    />
-                  }
-                  classes={{
-                    checked: classes.iconCheckboxChecked,
-                    root: classes.iconCheckbox,
-                  }}
-                />
-                <h6>Code</h6>
-              </div>
-            </GridItem> */}
+            
             <GridItem item={true} xs={12} sm={6}>
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdevelop(!develop)}
+                  onClick={() => setfirstnew(!firstnew)}
                   checkedIcon={
                     <i aria-hidden
                       className={"fas fa-plus " + classes.iconCheckboxIcon}
@@ -144,55 +115,6 @@ const Step2 = React.forwardRef((props, ref) => {
                 />
                 <h6>New</h6>
               </div>
-              <FormControl fullWidth className={classes.selectFormControl}>
-                {/* <InputLabel
-                  htmlFor="simple-select-2"
-                  className={classes.selectLabel}
-                >
-                  Choose City
-                </InputLabel> */}
-                {/* <Select
-                  MenuProps={{
-                    className: classes.selectMenu,
-                  }}
-                  classes={{
-                    select: classes.select,
-                  }}
-                  value={simpleSelect}
-                  onChange={handleSimple}
-                  inputProps={{
-                    name: "simpleSelect",
-                    id: "simple-select-2",
-                  }}
-                >
-                  <MenuItem
-                    disabled
-                    classes={{
-                      root: classes.selectMenuItem,
-                    }}
-                  >
-                    Choose City
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected,
-                    }}
-                    value="2"
-                  >
-                    Paris
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected,
-                    }}
-                    value="3"
-                  >
-                    Bucharest
-                  </MenuItem>
-                </Select> */}
-              </FormControl>
             </GridItem>
           </GridContainer>
         </GridItem>

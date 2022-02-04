@@ -38,21 +38,12 @@ const style = {
   ...customCheckboxRadioSwitch,
 };
 
-const Step2 = React.forwardRef((props, ref) => {
-  const [simpleSelect, setsimpleSelect] = React.useState("");
-  const [design, setdesign] = React.useState(false);
-  const [code, setcode] = React.useState(false);
-  const [develop, setdevelop] = React.useState(false);
+const Step5 = React.forwardRef((props, ref) => {
+  const [thankyou, setdevelop] = React.useState(false);
   const sendState = () => {
     return {
-      simpleSelect,
-      design,
-      code,
-      develop,
+      thankyou,
     };
-  };
-  const handleSimple = (event) => {
-    setsimpleSelect(event.target.value);
   };
   const isValidated = () => {
     return true;
@@ -76,7 +67,7 @@ const Step2 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setdevelop(!develop)}
+                  onClick={() => setthankyou(!thankyou)}
                   checkedIcon={
                     <i aria-hidden
                       className={"fas fa-check-circle " + classes.iconCheckboxIcon}
@@ -151,8 +142,8 @@ const Step2 = React.forwardRef((props, ref) => {
   );
 });
 
-Step2.propTypes = {
+Step5.propTypes = {
   classes: PropTypes.object,
 };
 
-export default withStyles(style)(Step2);
+export default withStyles(style)(Step5);

@@ -33,28 +33,40 @@ const style = {
 };
 
 const Step1 = React.forwardRef((props, ref) => {
+  const [company, setcompany] = React.useState("");
+  const [companyState, setcompanyState] = React.useState("");
   const [firstname, setfirstname] = React.useState("");
   const [firstnameState, setfirstnameState] = React.useState("");
   const [lastname, setlastname] = React.useState("");
   const [lastnameState, setlastnameState] = React.useState("");
   const [email, setemail] = React.useState("");
   const [emailState, setemailState] = React.useState("");
+  // const [phone, setphone] = React.useState("");
+  // const [phoneState, setphoneState] = React.useState("");
   const stateFunctions = {
     setemailState: (value) => setemailState(value),
     setemail: (value) => setemail(value),
+    // setphoneState: (value) => setphoneState(value),
+    // setphone: (value) => setphone(value),
     setlastnameState: (value) => setlastnameState(value),
     setlastname: (value) => setlastname(value),
     setfirstnameState: (value) => setfirstnameState(value),
     setfirstname: (value) => setfirstname(value),
+    setcompanyState: (value) => setcompanyState(value),
+    setcompany: (value) => setcompany(value),
   };
   const sendState = () => {
     return {
+      company,
+      companyState,
       firstname,
       firstnameState,
       lastname,
       lastnameState,
       email,
       emailState,
+      // phone,
+      // phoneState,
     };
   };
   // function that returns true if value is email, false otherwise
@@ -95,12 +107,17 @@ const Step1 = React.forwardRef((props, ref) => {
   };
   const isValidated = () => {
     if (
+      companyState === "success" &&
       firstnameState === "success" &&
       lastnameState === "success" &&
+      // phoneState === "success" &&
       emailState === "success"
     ) {
       return true;
     } else {
+      if (companyState !== "success") {
+        setcompanyState("error");
+      }
       if (firstnameState !== "success") {
         setfirstnameState("error");
       }
@@ -110,6 +127,9 @@ const Step1 = React.forwardRef((props, ref) => {
       if (emailState !== "success") {
         setemailState("error");
       }
+      // if (phoneState !== "success") {
+      //   setphoneState("error");
+      // }
     }
     return false;
   };
@@ -131,10 +151,15 @@ const Step1 = React.forwardRef((props, ref) => {
       </GridItem>
       <GridItem item={true} xs={12} sm={12}>
       <CustomInput
+          success={companyState === "success"}
+          error={companyState === "error"}
           labelText="Company"
           id="company"
           formControlProps={{
             fullWidth: true,
+          }}
+          inputProps={{
+            onChange: (event) => change(event, "company", "length", 3),
           }}
         />
       </GridItem>
