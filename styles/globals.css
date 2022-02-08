@@ -41,7 +41,9 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
 
 .serif-font {
   font-family: "Roboto Slab", "Times New Roman", serif; }
-
+#btnStripe{
+  display: none;
+}
 a {
   color: #9c27b0; }
   a:hover, a:focus {
@@ -1066,6 +1068,7 @@ select.form-control {
   top: -1px;
   position: relative; }
 
+ 
 /*            Navigation menu                */
 .nav-pills {
   background-color: rgba(200, 200, 200, 0.2); }

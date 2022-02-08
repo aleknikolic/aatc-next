@@ -1,6 +1,7 @@
 import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
+import $ from 'jquery'; 
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -14,6 +15,7 @@ class Wizard extends React.Component {
   constructor(props) {
     super(props);
     var width;
+    console.log("check state", this.props.steps.length)
     if (this.props.steps.length === 1) {
       width = "100%";
     } else {
@@ -36,6 +38,7 @@ class Wizard extends React.Component {
       color: this.props.color,
       nextButton: this.props.steps.length > 1 ? true : false,
       previousButton: false,
+      paymentButton: false,
       finishButton: this.props.steps.length === 1 ? true : false,
       width: width,
       movingTabStyle: {
@@ -62,6 +65,10 @@ class Wizard extends React.Component {
     this.refreshAnimation(this.state.currentStep);
   }
   navigationStepChange(key) {
+    if(this.state.currentStep === 2){ 
+      this.state.paymentButton = true;
+      this.state.nextButton = false;
+    }
     if (this.props.steps) {
       var validationState = true;
       if (key > this.state.currentStep) {
@@ -96,7 +103,36 @@ class Wizard extends React.Component {
       }
     }
   }
+  paymentButtonSubmit() {
+    this.state.paymentButton = false;
+    this.state.nextButton = false;
+    if (
+      this[this.props.steps[this.state.currentStep].stepId].sendState !==
+      undefined
+    ) {
+      this.setState({
+        allStates: {
+          ...this.state.allStates,
+          [this.props.steps[this.state.currentStep].stepId]: this[
+            this.props.steps[this.state.currentStep].stepId
+          ].sendState(),
+        },
+      });
+    }
+    var key = this.state.currentStep + 1;
+    this.setState({
+      currentStep: key,
+      nextButton: this.props.steps.length > key + 1 ? true : false,
+      previousButton: key > 0 ? true : false,
+      finishButton: this.props.steps.length === key + 1 ? true : false,
+    });
+    this.refreshAnimation(key);
+  }
   nextButtonClick() {
+    if(this.state.currentStep === 2){ 
+      this.state.paymentButton = true;
+      this.state.nextButton = false;
+    }
     if (
       (this.props.validate &&
         ((this[this.props.steps[this.state.currentStep].stepId].isValidated !==
@@ -300,13 +336,26 @@ class Wizard extends React.Component {
               ) : null}
             </div>
             <div className={classes.right}>
-              {this.state.nextButton ? (
+              {!this.state.paymentButton && this.state.nextButton ? (
                 <Button
                   color="rose"
                   className={this.props.nextButtonClasses}
                   onClick={() => this.nextButtonClick()}
                 >
                   {this.props.nextButtonText}
+                </Button>
+              ) : null}
+              {this.state.paymentButton ? (
+                <Button
+                form='stripePay'
+                color="rose"
+                onClick={() => {
+                  const submitBtn = document.getElementById('btnStripe');
+                  submitBtn.click();
+                  this.paymentButtonSubmit()}}
+                className={this.props.nextButtonClasses}
+                >
+                  Submit
                 </Button>
               ) : null}
               {this.state.finishButton ? (

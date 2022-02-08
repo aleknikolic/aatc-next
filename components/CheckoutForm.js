@@ -1,177 +1,155 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import {Elements} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
-import styleclass from '../styles/Styles.module.scss';
+import React, { useEffect, useState } from "react";
+import stripe from "../lib/stripe.js";
 import { Input, Col, Row, Form, Button, Modal } from "antd";
-import { useState } from "react";
+import styleclass from '../styles/Styles.module.scss';
+import { environment } from '../lib/environment.js';
+import axios from 'axios';
 
-const CheckoutForm = props => {
-  const { getFieldDecorator } = props.form;
-  const [isLoading, setLoading] = useState(false);
+import StyledIndex from "../pages/stripe.css.js";
 
-  const stripe = useStripe();
-  const elements = useElements();
+class Checkout extends React.Component {
+  state = {
+    token: "",
+    cardError: "",
+  };
 
-  const handleSubmit = async event => {
-    event.preventDefault();
+  componentDidMount() {
+    const elements = stripe.elements();
 
-    props.form.validateFields(async (err, values) => {
-      if (!err) {
-        setLoading(true);
-        const result = await stripe.createPaymentMethod({
-          type: "card",
-          card: elements.getElement(CardElement),
-          billing_details: {
-            address: {
-              city: values.city,
-              line1: values.address,
-              postal_code: values.zip,
-              state: values.state
-            },
-            email: "janedoe@example.com",
-            name: values.name,
-            phone: "555-555-5555"
-          }
-        });
-        await handleStripePaymentMethod(result);
-        setLoading(false);
+    this.creditCard = elements.create("card", {
+      style: {
+        base: {
+          fontSize: "18px",
+        },
+      },
+    });
+
+    this.creditCard.on("change", (event) => {
+      if (event.error) {
+        this.setState({ cardError: event.error.message });
+      } else {
+        this.setState({ cardError: "" });
       }
     });
-  };
 
-  const handleStripePaymentMethod = async result => {
-    if (result.error) {
-      Modal.error({
-        title: "Error",
-        content: result.error.message
-      });
-    } else {
-      const response = await fetch("api/create-customer", {
-        method: "POST",
-        mode: "same-origin",
-        body: JSON.stringify({
-          paymentMethodId: result.paymentMethod.id
-        })
-      });
+    this.creditCard.mount(".credit-card");
+  }
 
-      const subscription = await response.json();
-      handleSubscription(subscription);
-    }
-  };
-
-  const handleSubscription = subscription => {
-    const { latest_invoice } = subscription;
-    const { payment_intent } = latest_invoice;
-
-    if (payment_intent) {
-      const { client_secret, status } = payment_intent;
-
-      if (status === "requires_action") {
-        stripe.confirmCardPayment(client_secret).then(function(result) {
-          if (result.error) {
-            // The card was declined (i.e. insufficient funds, card has expired, etc)
-            Modal.error({
-              title: "Error",
-              content: result.error.message
-            });
-          } else {
-            // Success!
-            Modal.success({
-              title: "Success"
-            });
-          }
-        });
+  handleSubmit = (event) => {
+    event.preventDefault();
+        console.log("val", event);
+        console.log("get user value", event.target.payerCardName.value) 
+        const stripeFee = +(event.target.payerAmount.value * 100).toFixed();
+    stripe.createToken(this.creditCard).then(({ error, token }) => {
+      if (error) {
+        this.setState({ cardError: error.message });
       } else {
-        // No additional information was needed
-        Modal.success({
-          title: "Success"
-        });
+        // this.setState({ token: token.id });
+        console.log("stripe token", token.id);
+        let trans = {
+          amount: stripeFee,//3745,
+          source: token.id, //don't send the entire token only the id //
+          currency: 'usd',
+          receipt_email: this.payerEmail?.value, //'dhardy@utherwise.com',
+          statement_descriptor: 'AATC License Fee',
+          shipping: {
+            name: `${this.payerFirstName?.value} ${this.payerLastName?.value}`, //'Carol Testor',
+            address: {
+              line1: '', //'40 Pine Ridge Road',
+              city: null, //'Atlanta',
+              state: null, // 'GA',
+              postal_code: null, //'30080',
+              country: 'USA'
+            }
+          }
+        };
+        console.log('trans',trans);
+        let url = environment.stripe.charges;//'https://lvngbook-api.azurewebsites.net/api/charges';
+          // self.http.post(url,trans).subscribe((result => {
+          //   if (result) {
+          //     console.log('result from stripe api', result);
+          //   }
+          // }));
+          axios.post(url, trans).then(response => {
+            console.log("result from stripe api", response.data)
+          })
       }
-    } else {
-      console.log(`handleSubscription:: No payment information received!`);
-    }
+    });
+    
   };
 
-  const cardOptions = {
-    iconStyle: "solid",
-    style: {
-      base: {
-        iconColor: "#1890ff",
-        color: "rgba(0, 0, 0, 0.65)",
-        fontWeight: 500,
-        fontFamily: "Segoe UI, Roboto, Open Sans, , sans-serif",
-        fontSize: "15px",
-        fontSmoothing: "antialiased",
-        ":-webkit-autofill": { color: "#fce883" },
-        "::placeholder": { color: "#bfbfbf" }
-      },
-      invalid: {
-        iconColor: "#ffc7ee",
-        color: "#ffc7ee"
-      }
-    }
-  };
-  return (
-    <Form onSubmit={e => handleSubmit(e)} className={styleclass.stripeform}>
+  render() {
+    const { cardError, token } = this.state;
+
+    return (
+        <Form ref="stripeForm" id="stripePay" onSubmit={this.handleSubmit} className={styleclass.stripeform}>
       <Form.Item label="Name on card" colon={false} className={styleclass.stripeformitem}>
-        {getFieldDecorator("name", {
-          rules: [{ required: true, message: "Name is required" }]
-        })(<Input />)}
+        <Input name="payerCardName"/>
       </Form.Item>
       <Form.Item label="Card" colon={false} className={styleclass.stripeformitem}>
-        {getFieldDecorator("card", {
-          rules: [{ required: true, message: "Card is required" }]
-        })(<CardElement options={cardOptions} />)}
+        {/* <CardElement options={cardOptions} /> */}
+      <StyledIndex>
+        <div className="credit-card" />
+        {cardError && <p className="card-error">{cardError}</p>}
+        {/* <button
+          onClick={() => this.handleSubmit()}
+          className="btn btn-primary btn-lg mt-4"
+        >
+          Get Token
+        </button> */}
+        {token && (
+          <div className="mt-4">
+            <p className="token">{token}</p>
+          </div>
+        )}
+      </StyledIndex>
       </Form.Item>
       <Form.Item label="Company" colon={false} className={styleclass.stripeformitem}>
-        {getFieldDecorator("company", {
-          rules: [{ required: true, message: "Company is required" }]
-        })(<Input />)}
+        <Input name="payerCompany"/>
       </Form.Item>
       <Input.Group>
         <Row gutter={12} className="d-flex">
           <Col span={6} className="col-md-6">
             <Form.Item label="Firstname" colon={false} className={styleclass.stripeformitem}>
-              {getFieldDecorator("firstname", {
-                rules: [{ required: true, message: "Name is required" }]
-              })(<Input />)}
+              <Input name="payerFirstName"/>
             </Form.Item>
           </Col>
           <Col span={6} className="col-md-6">
             <Form.Item label="Lastname" colon={false} className={styleclass.stripeformitem}>
-              {getFieldDecorator("lastname", {
-                rules: [{ required: true, message: "Name is required" }]
-              })(<Input />)}
+              <Input name="payerLastName"/>
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={12} className="d-flex">
           <Col span={6} className="col-md-6">
             <Form.Item label="Email" colon={false} className={styleclass.stripeformitem}>
-              {getFieldDecorator("email", {
-                rules: [{ required: true, message: "Email is required" }]
-              })(<Input />)}
+              <Input name="payerEmail"/>
             </Form.Item>
           </Col>
           <Col span={6} className="col-md-6">
             <Form.Item label="Renewel Amount" colon={false} className={styleclass.stripeformitem}>
-              {getFieldDecorator("renewel", {
-                rules: [{ required: true, message: "Amount is required" }]
-              })(<Input />)}
+              <Input name="payerAmount"/>
             </Form.Item>
           </Col>
         </Row>
       </Input.Group>
-      {/* <Button
-        loading={isLoading}
+      <Button
         type="primary"
         htmlType="submit"
-        className="checkout-button"
-        disabled={!stripe}
+        className="btn btn-primary btn-lg mt-4"
+        id="btnStripe"
       >
         Submit
-      </Button> */}
+      </Button>
     </Form>
-  );
+        
+    );
+  }
+}
+
+Checkout.propTypes = {
+  // prop: PropTypes.string.isRequired,
 };
-export default Form.create()(CheckoutForm);
+
+export default Checkout;

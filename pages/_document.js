@@ -47,6 +47,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <script src="https://kit.fontawesome.com/e6650453fe.js" crossorigin="anonymous"></script>
+          <script src="https://js.stripe.com/v3/"></script>
         </Head>
         <body>
           <div id="page-transition"></div>
