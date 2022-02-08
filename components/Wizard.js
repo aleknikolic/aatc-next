@@ -12,10 +12,11 @@ import Card from "../components/Card.js";
 import wizardStyle from "../assets/js/wizardStyle.js";
 
 class Wizard extends React.Component {
+  
   constructor(props) {
+    
     super(props);
     var width;
-    console.log("check state", this.props.steps.length)
     if (this.props.steps.length === 1) {
       width = "100%";
     } else {
@@ -64,6 +65,7 @@ class Wizard extends React.Component {
   updateWidth() {
     this.refreshAnimation(this.state.currentStep);
   }
+  
   navigationStepChange(key) {
     if(this.state.currentStep === 2){ 
       this.state.paymentButton = true;

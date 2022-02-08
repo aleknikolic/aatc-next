@@ -67,7 +67,7 @@ const Step5 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setthankyou(!thankyou)}
+                  // onClick={() => setthankyou(!thankyou)}
                   checkedIcon={
                     <i aria-hidden
                       className={"fas fa-check-circle " + classes.iconCheckboxIcon}

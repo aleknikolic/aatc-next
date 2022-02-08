@@ -19,6 +19,7 @@ import Step5 from "../components/WizardSteps/Step5.js";
 
 
 export default function Home() {
+ 
   return (
     <div className={`${styles.container} ${styles.bgimage}`}>
 
