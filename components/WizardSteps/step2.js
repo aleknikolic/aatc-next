@@ -32,7 +32,7 @@ const style = {
   },
 };
 
-const Step1 = React.forwardRef((props, ref) => {
+const Step2 = React.forwardRef((props, ref) => {
   const [company, setcompany] = React.useState("");
   const [companyState, setcompanyState] = React.useState("");
   const [firstname, setfirstname] = React.useState("");
@@ -230,8 +230,8 @@ const Step1 = React.forwardRef((props, ref) => {
   );
 });
 
-Step1.propTypes = {
+Step2.propTypes = {
   classes: PropTypes.object,
 };
 
-export default withStyles(style)(Step1);
+export default withStyles(style)(Step2);

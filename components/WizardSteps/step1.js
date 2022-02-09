@@ -38,7 +38,7 @@ const style = {
   ...customCheckboxRadioSwitch,
 };
 
-const Step2 = React.forwardRef((props, ref) => {
+const Step1 = React.forwardRef((props, ref) => {
   const [renew, setrenew] = React.useState(false);
   const [firstnew, setfirstnew] = React.useState(false);
   const sendState = () => {
@@ -123,8 +123,8 @@ const Step2 = React.forwardRef((props, ref) => {
   );
 });
 
-Step2.propTypes = {
+Step1.propTypes = {
   classes: PropTypes.object,
 };
 
-export default withStyles(style)(Step2);
+export default withStyles(style)(Step1);

@@ -158,7 +158,7 @@ import {
         ", 0.4)",
     },
     footer: {
-      padding: "0 15px",
+      padding: "0 15px 18px",
     },
     left: {
       float: "left!important",

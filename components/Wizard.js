@@ -55,14 +55,6 @@ class Wizard extends React.Component {
   }
   wizard = React.createRef();
   componentDidMount() {
-    
-    $('iframe').attr('id','stripeiFrame');
-    $("#stripeiFrame").on("load", function() {
-      let head = $("#stripeiFrame").contents().find("head");
-      console.log("check el", head);
-      let css = '<style> .ElementsApp{ font-size: 14px; margin-top: 1px;}</style>';
-      $(head).append(css);
-    });
     this.refreshAnimation(0);
     window.addEventListener("resize", this.updateWidth);
   }
@@ -74,9 +66,14 @@ class Wizard extends React.Component {
   }
   
   navigationStepChange(key) {
-    if(this.state.currentStep === 2){ 
+    console.log("check", key);
+    if(key === 3){ 
       this.state.paymentButton = true;
       this.state.nextButton = false;
+    }
+    else{
+      this.state.paymentButton = false;
+      this.state.nextButton = true;
     }
     if (this.props.steps) {
       var validationState = true;
@@ -296,7 +293,7 @@ class Wizard extends React.Component {
                     style={{ width: this.state.width }}
                   >
                     <a
-                      href="#pablo"
+                      href="#"
                       className={classes.stepsAnchor}
                       onClick={(e) => {
                         e.preventDefault();
