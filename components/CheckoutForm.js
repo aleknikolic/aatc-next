@@ -20,7 +20,7 @@ class Checkout extends React.Component {
     this.creditCard = elements.create("card", {
       style: {
         base: {
-          fontSize: "18px",
+          // fontSize: "18px",
         },
       },
     });

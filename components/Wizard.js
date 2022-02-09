@@ -14,7 +14,6 @@ import wizardStyle from "../assets/js/wizardStyle.js";
 class Wizard extends React.Component {
   
   constructor(props) {
-    
     super(props);
     var width;
     if (this.props.steps.length === 1) {
@@ -56,6 +55,14 @@ class Wizard extends React.Component {
   }
   wizard = React.createRef();
   componentDidMount() {
+    
+    $('iframe').attr('id','stripeiFrame');
+    $("#stripeiFrame").on("load", function() {
+      let head = $("#stripeiFrame").contents().find("head");
+      console.log("check el", head);
+      let css = '<style> .ElementsApp{ font-size: 14px; margin-top: 1px;}</style>';
+      $(head).append(css);
+    });
     this.refreshAnimation(0);
     window.addEventListener("resize", this.updateWidth);
   }
