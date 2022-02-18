@@ -66,21 +66,29 @@ class Wizard extends React.Component {
   }
   
   navigationStepChange(key) {
-    console.log("check", key);
     if(key === 3){ 
-      this.setState({
-        paymentButton: true,
-        nextButton: false
-      })
+      if (
+        this[this.props.steps[1].stepId].isValidated !== undefined &&
+        this[this.props.steps[1].stepId].isValidated() === false
+      ) {
+        this.setState({
+          paymentButton: false,
+          nextButton: true
+        })
+      }
+      else{
+        this.setState({
+          paymentButton: true,
+          nextButton: false
+        })
+      }
+      
       // this.state.paymentButton = true;
       // this.state.nextButton = false;
     }
     else {
 
-      this.setState({
-        paymentButton: false,
-        nextButton: true
-      })
+      
       // this.state.paymentButton = false;
       // this.state.nextButton = true;
     }
