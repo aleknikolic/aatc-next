@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/054219b1-24c2-4d3f-a2be-fe6503f76dd6/resourceGroups/cvdo-aatc-rsg/providers/Microsoft.Web/sites/aatc-register",
+    "appService.deploySubpath": "."
+}
