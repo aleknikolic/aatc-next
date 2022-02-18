@@ -46,7 +46,7 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             rel="stylesheet"
           />
-          <script src="https://kit.fontawesome.com/e6650453fe.js" crossorigin="anonymous"></script>
+          <script src="https://kit.fontawesome.com/e6650453fe.js" crossOrigin="anonymous"></script>
           <script src="https://js.stripe.com/v3/"></script>
         </Head>
         <body>

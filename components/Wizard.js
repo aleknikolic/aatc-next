@@ -68,12 +68,21 @@ class Wizard extends React.Component {
   navigationStepChange(key) {
     console.log("check", key);
     if(key === 3){ 
-      this.state.paymentButton = true;
-      this.state.nextButton = false;
+      this.setState({
+        paymentButton: true,
+        nextButton: false
+      })
+      // this.state.paymentButton = true;
+      // this.state.nextButton = false;
     }
-    else{
-      this.state.paymentButton = false;
-      this.state.nextButton = true;
+    else {
+
+      this.setState({
+        paymentButton: false,
+        nextButton: true
+      })
+      // this.state.paymentButton = false;
+      // this.state.nextButton = true;
     }
     if (this.props.steps) {
       var validationState = true;
@@ -110,8 +119,12 @@ class Wizard extends React.Component {
     }
   }
   paymentButtonSubmit() {
-    this.state.paymentButton = false;
-    this.state.nextButton = false;
+    this.setState({
+        paymentButton: false,
+        nextButton: false
+    })
+    // this.state.paymentButton = false;
+    // this.state.nextButton = false;
     if (
       this[this.props.steps[this.state.currentStep].stepId].sendState !==
       undefined
@@ -135,9 +148,13 @@ class Wizard extends React.Component {
     this.refreshAnimation(key);
   }
   nextButtonClick() {
-    if(this.state.currentStep === 2){ 
-      this.state.paymentButton = true;
-      this.state.nextButton = false;
+    if(this.state.currentStep === 2) { 
+      this.setState({
+        paymentButton: true,
+        nextButton: false
+      })
+      // this.state.paymentButton = true;
+      // this.state.nextButton = false;
     }
     if (
       (this.props.validate &&
