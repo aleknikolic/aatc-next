@@ -126,5 +126,5 @@ const Step1 = React.forwardRef((props, ref) => {
 Step1.propTypes = {
   classes: PropTypes.object,
 };
-
+Step1.displayName = 'Step1';
 export default withStyles(style)(Step1);

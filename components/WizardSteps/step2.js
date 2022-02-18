@@ -12,7 +12,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridContainer from "../Grid/GridContainer.js";
 import GridItem from "../Grid/GridItem.js";
-import PictureUpload from "../CustomUpload/PictureUpload.js";
 import CustomInput from "../CustomInput/CustomInput.js";
 
 const style = {
@@ -233,5 +232,5 @@ const Step2 = React.forwardRef((props, ref) => {
 Step2.propTypes = {
   classes: PropTypes.object,
 };
-
+Step2.displayName = 'Step2';
 export default withStyles(style)(Step2);

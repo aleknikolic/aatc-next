@@ -27,12 +27,12 @@ class MyDocument extends Document {
             type="text/css"
             media="screen"
           />
-          <link
+          {/* <link
             rel="stylesheet"
             href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"
             type="text/css"
             media="screen"
-          />
+          /> */}
           <link
             href="https://use.fontawesome.com/releases/v5.0.7/css/all.css"
             rel="stylesheet"

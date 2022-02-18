@@ -82,5 +82,5 @@ RegularButton.propTypes = {
   muiClasses: PropTypes.object,
   children: PropTypes.node,
 };
-
+RegularButton.displayName = 'RegularButton';
 export default RegularButton;

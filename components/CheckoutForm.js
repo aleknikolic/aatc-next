@@ -83,7 +83,7 @@ class Checkout extends React.Component {
     const { cardError, token } = this.state;
 
     return (
-        <Form ref="stripeForm" id="stripePay" onSubmit={this.handleSubmit} className={styleclass.stripeform}>
+        <Form id="stripePay" onSubmit={this.handleSubmit} className={styleclass.stripeform}>
       <Form.Item label="Name on card" colon={false} className={styleclass.stripeformitem}>
         <Input name="payerCardName"/>
       </Form.Item>
@@ -151,5 +151,5 @@ class Checkout extends React.Component {
 Checkout.propTypes = {
   // prop: PropTypes.string.isRequired,
 };
-
+Checkout.displayName = 'Checkout';
 export default Checkout;
