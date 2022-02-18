@@ -20,7 +20,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
           />
-          <script async src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+          <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
           <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.4/jquery-jvectormap.css"
