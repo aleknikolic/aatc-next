@@ -83,14 +83,12 @@ class Wizard extends React.Component {
         })
       }
       
-      // this.state.paymentButton = true;
-      // this.state.nextButton = false;
     }
     else {
-
-      
-      // this.state.paymentButton = false;
-      // this.state.nextButton = true;
+      this.setState({
+        paymentButton: false,
+        nextButton: true
+      })
     }
     if (this.props.steps) {
       var validationState = true;
