@@ -11,11 +11,11 @@ import GridItem from "../components/Grid/GridItem.js";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
-import Step1 from "../components/WizardSteps/Step1.js";
-import Step2 from "../components/WizardSteps/Step2.js";
-import Step3 from "../components/WizardSteps/Step3.js";
-import Step4 from "../components/WizardSteps/Step4.js";
-import Step5 from "../components/WizardSteps/Step5.js";
+import Step1 from "../components/WizardSteps/step1.js";
+import Step2 from "../components/WizardSteps/step2.js";
+import Step3 from "../components/WizardSteps/step3.js";
+import Step4 from "../components/WizardSteps/step4.js";
+import Step5 from "../components/WizardSteps/step5.js";
 
 
 export default function Home() {
