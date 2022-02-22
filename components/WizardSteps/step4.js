@@ -76,10 +76,12 @@ const Step4 = React.forwardRef((props, ref) => {
           Let{"'"}s start with the basic information (with validation)
         </h4>
       </GridItem>
-      <CheckoutForm
-      success={stripeState === "success"}
-      error={stripeState === "error"}
-      />
+      <Elements stripe={stripePromise}>
+        <CheckoutForm
+        success={stripeState === "success"}
+        error={stripeState === "error"}
+        />
+      </Elements>
 </GridContainer>
     </Elements>
   );
