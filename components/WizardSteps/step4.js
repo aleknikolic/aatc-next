@@ -68,8 +68,8 @@ const Step4 = React.forwardRef((props, ref) => {
     },
   }));
   const { classes } = props;
+  const formdata = props.allStates;
   return (
-    <Elements stripe={stripePromise}>
 <GridContainer justify="center" item sm={9} className={classes.outer}>
       <GridItem item={true} xs={12} sm={12}>
         <h4 className={classes.infoText}>
@@ -80,10 +80,10 @@ const Step4 = React.forwardRef((props, ref) => {
         <CheckoutForm
         success={stripeState === "success"}
         error={stripeState === "error"}
+        formdata={formdata}
         />
       </Elements>
 </GridContainer>
-    </Elements>
   );
 });
 

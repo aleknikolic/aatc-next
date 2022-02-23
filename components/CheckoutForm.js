@@ -16,7 +16,6 @@ class Checkout extends React.Component {
 
   componentDidMount() {
     const elements = stripe.elements();
-
     this.creditCard = elements.create("card", {
       style: {
         base: {
@@ -38,6 +37,40 @@ class Checkout extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    const formData = this.props.formdata;
+    
+    const welcome = formData.welcome;
+    let isNew;
+    if(welcome.firstnew === true){
+      isNew = true;
+    }
+    else if(welcome.firstnew === false || welcome.renew === true){
+      isNew = false;
+    }
+    
+    const registeration = formData.registeration;
+    let company = registeration.company;
+    let firstName = registeration.firstname;
+    let lastName = registeration.lastname;
+    let email = registeration.email;
+    let phone = registeration.phone;
+
+    const type = formData.type;
+    var keys = Object.keys(type);
+    var filteredtypes = keys.filter(function(key) {
+      return type[key]
+    });
+    filteredtypes = filteredtypes.toString();
+
+    let payerCompany = event.target.payerCompany.value;
+    let payerFirstName = event.target.payerFirstName.value;
+    let payerLastName = event.target.payerLastName.value;
+    let payerEmail = event.target.payerEmail.value;
+    let payerPhone = event.target.payerPhone.value;
+    
+
+  console.log("check step", formData);
         console.log("val", event);
         console.log("get user value", event.target.payerCardName.value) 
         const stripeFee = +(event.target.payerAmount.value * 100).toFixed();
@@ -66,13 +99,43 @@ class Checkout extends React.Component {
         };
         console.log('trans',trans);
         let url = environment.stripe.charges;//'https://lvngbook-api.azurewebsites.net/api/charges';
+        let apiUrl = environment.registrations.charges;
           // self.http.post(url,trans).subscribe((result => {
           //   if (result) {
           //     console.log('result from stripe api', result);
           //   }
           // }));
           axios.post(url, trans).then(response => {
-            console.log("result from stripe api", response.data)
+            let resData = response.data;
+            let stripeId = resData.id;
+            let stripeTxn = resData.balance_transaction;
+            let stripeLast4 = resData.source.last4;
+            let allData = { data: {
+              isNew: isNew,
+              userCompany: company,
+              userFirstName: firstName,
+              userLastName: lastName,
+              userPhone: phone,
+              userEmail: email,
+              classification: filteredtypes,
+              payerCompany: payerCompany,
+              payerFirstName: payerFirstName,
+              payerLastName: payerLastName,
+              payerEmail: payerEmail,
+              payerPhone: payerPhone,
+              stripeId: stripeId,
+              stripeTxn: stripeTxn,
+              stripeLast4: stripeLast4,
+              createdAt: "2022-02-23T08:31:07.508Z",
+              updatedAt: "2022-02-23T08:31:07.508Z",
+              createdBy: "dexter",
+              updatedBy: "dexter"
+            }
+            };
+            console.log("Data", allData);
+              axios.post(apiUrl, allData).then(res => {
+                console.log("result", res);
+              });
           })
       }
     });
@@ -81,7 +144,6 @@ class Checkout extends React.Component {
 
   render() {
     const { cardError, token } = this.state;
-
     return (
         <Form id="stripePay" onSubmit={this.handleSubmit} className={styleclass.stripeform}>
       <Form.Item label="Name on card" colon={false} className={styleclass.stripeformitem}>
@@ -128,11 +190,14 @@ class Checkout extends React.Component {
             </Form.Item>
           </Col>
           <Col span={6} className="col-md-6">
-            <Form.Item label="Renewel Amount" colon={false} className={styleclass.stripeformitem}>
-              <Input name="payerAmount"/>
+            <Form.Item label="Phone" colon={false} className={styleclass.stripeformitem}>
+              <Input name="payerPhone"/>
             </Form.Item>
           </Col>
         </Row>
+        <Form.Item label="Renewel Amount" colon={false} className={styleclass.stripeformitem}>
+          <Input name="payerAmount"/>
+        </Form.Item>
       </Input.Group>
       <Button
         type="primary"

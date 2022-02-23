@@ -40,13 +40,13 @@ const Step2 = React.forwardRef((props, ref) => {
   const [lastnameState, setlastnameState] = React.useState("");
   const [email, setemail] = React.useState("");
   const [emailState, setemailState] = React.useState("");
-  // const [phone, setphone] = React.useState("");
-  // const [phoneState, setphoneState] = React.useState("");
+  const [phone, setphone] = React.useState("");
+  const [phoneState, setphoneState] = React.useState("");
   const stateFunctions = {
     setemailState: (value) => setemailState(value),
     setemail: (value) => setemail(value),
-    // setphoneState: (value) => setphoneState(value),
-    // setphone: (value) => setphone(value),
+    setphoneState: (value) => setphoneState(value),
+    setphone: (value) => setphone(value),
     setlastnameState: (value) => setlastnameState(value),
     setlastname: (value) => setlastname(value),
     setfirstnameState: (value) => setfirstnameState(value),
@@ -64,8 +64,8 @@ const Step2 = React.forwardRef((props, ref) => {
       lastnameState,
       email,
       emailState,
-      // phone,
-      // phoneState,
+      phone,
+      phoneState,
     };
   };
   // function that returns true if value is email, false otherwise
@@ -99,6 +99,9 @@ const Step2 = React.forwardRef((props, ref) => {
           stateFunctions["set" + stateName + "State"]("error");
         }
         break;
+      case "phone":
+          stateFunctions["set" + stateName + "State"]("success");
+        break;
       default:
         break;
     }
@@ -109,7 +112,7 @@ const Step2 = React.forwardRef((props, ref) => {
       companyState === "success" &&
       firstnameState === "success" &&
       lastnameState === "success" &&
-      // phoneState === "success" &&
+      phoneState === "success" &&
       emailState === "success"
     ) {
       return true;
@@ -126,9 +129,9 @@ const Step2 = React.forwardRef((props, ref) => {
       if (emailState !== "success") {
         setemailState("error");
       }
-      // if (phoneState !== "success") {
-      //   setphoneState("error");
-      // }
+      if (phoneState !== "success") {
+        setphoneState("error");
+      }
     }
     return false;
   };
@@ -222,6 +225,9 @@ const Step2 = React.forwardRef((props, ref) => {
           id="phone"
           formControlProps={{
             fullWidth: true,
+          }}
+          inputProps={{
+            onChange: (event) => change(event, "phone", "phone"),
           }}
         />
       </GridItem>

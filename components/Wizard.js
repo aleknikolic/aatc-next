@@ -185,6 +185,7 @@ class Wizard extends React.Component {
             ].sendState(),
           },
         });
+        
       }
       var key = this.state.currentStep + 1;
       this.setState({

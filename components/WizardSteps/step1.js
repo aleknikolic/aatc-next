@@ -122,7 +122,6 @@ const Step1 = React.forwardRef((props, ref) => {
     </div>
   );
 });
-
 Step1.propTypes = {
   classes: PropTypes.object,
 };
