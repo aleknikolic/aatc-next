@@ -41,19 +41,19 @@ const style = {
 const Step3 = React.forwardRef((props, ref) => {
   const [custodial, setcustodial] = React.useState("");
   const [hvac, sethvac] = React.useState(false);
-  const [engg, setengg] = React.useState(false);
+  const [engineering, setengineering] = React.useState(false);
   const [mep, setmep] = React.useState(false);
   const [construction, setconstruction] = React.useState(false);
-  const [firealarm, setfirealarm] = React.useState(false);
+  const [fire, setfire] = React.useState(false);
   const [other, setother] = React.useState(false);
   const sendState = () => {
     return {
       custodial,
       hvac,
-      engg,
+      engineering,
       mep,
       construction,
-      firealarm,
+      fire,
       other,
     };
   };
@@ -133,7 +133,7 @@ const Step3 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setengg(!engg)}
+                  onClick={() => setengineering(!engineering)}
                   checkedIcon={
                     <i aria-hidden
                       className={
@@ -214,7 +214,7 @@ const Step3 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
-                  onClick={() => setfirealarm(!firealarm)}
+                  onClick={() => setfire(!fire)}
                   checkedIcon={
                     <i aria-hidden
                       className={
