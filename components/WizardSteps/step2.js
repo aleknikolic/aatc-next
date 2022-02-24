@@ -145,7 +145,7 @@ const Step2 = React.forwardRef((props, ref) => {
   }));
   const { classes } = props;
   return (
-    <GridContainer justify="center" item sm={8} className={classes.outer}>
+    <GridContainer justify="center" item sm={10} className={classes.outer}>
       <GridItem item={true} xs={12} sm={12}>
         <h4 className={classes.infoText}>
           Let{"'"}s start with the basic information (with validation)

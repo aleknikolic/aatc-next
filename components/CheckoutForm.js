@@ -15,6 +15,7 @@ class Checkout extends React.Component {
   };
 
   componentDidMount() {
+   
     const elements = stripe.elements();
     this.creditCard = elements.create("card", {
       style: {
@@ -30,6 +31,23 @@ class Checkout extends React.Component {
       } else {
         this.setState({ cardError: "" });
       }
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+      if( mm <= 3){
+        document.getElementById("payerAmount").value = "765"
+      }
+      else if( mm >= 4 && mm <= 6 ){
+        document.getElementById("payerAmount").value = "510"
+      }
+      else if( mm >= 7 && mm <= 8 ){
+        document.getElementById("payerAmount").value = "255"
+      }
+      else if( mm >= 9 || mm <= 12 ){
+        document.getElementById("payerAmount").value = "1020"
+      }
+      today = mm + '/' + dd + '/' + yyyy;
     });
 
     this.creditCard.mount(".credit-card");
@@ -68,6 +86,7 @@ class Checkout extends React.Component {
     let payerLastName = event.target.payerLastName.value;
     let payerEmail = event.target.payerEmail.value;
     let payerPhone = event.target.payerPhone.value;
+    let payerAmount = event.target.payerAmount.value;
     
 
   console.log("check step", formData);
@@ -100,11 +119,6 @@ class Checkout extends React.Component {
         console.log('trans',trans);
         let url = environment.stripe.charges;//'https://lvngbook-api.azurewebsites.net/api/charges';
         let apiUrl = environment.registrations.charges;
-          // self.http.post(url,trans).subscribe((result => {
-          //   if (result) {
-          //     console.log('result from stripe api', result);
-          //   }
-          // }));
           axios.post(url, trans).then(response => {
             let resData = response.data;
             let stripeId = resData.id;
@@ -126,6 +140,7 @@ class Checkout extends React.Component {
               stripeId: stripeId,
               stripeTxn: stripeTxn,
               stripeLast4: stripeLast4,
+              stripeAmount: payerAmount,
               createdAt: "2022-02-23T08:31:07.508Z",
               updatedAt: "2022-02-23T08:31:07.508Z",
               createdBy: "dexter",
@@ -196,7 +211,9 @@ class Checkout extends React.Component {
           </Col>
         </Row>
         <Form.Item label="Renewel Amount" colon={false} className={styleclass.stripeformitem}>
-          <Input name="payerAmount"/>
+        <Row gutter={12} className="d-flex">
+          $ <Input name="payerAmount" id="payerAmount"/>
+          </Row>
         </Form.Item>
       </Input.Group>
       <Button
