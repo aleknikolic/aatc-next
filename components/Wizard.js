@@ -137,8 +137,8 @@ class Wizard extends React.Component {
         submittingButton: false,
         nextButton: false
     })
-    this.state.paymentButton = false;
-    this.state.nextButton = false;
+    // this.state.paymentButton = false;
+    // this.state.nextButton = false;
     if (
       this[this.props.steps[this.state.currentStep].stepId].sendState !==
       undefined
