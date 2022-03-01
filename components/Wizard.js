@@ -1,7 +1,6 @@
 import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
-import $ from 'jquery'; 
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -39,6 +38,7 @@ class Wizard extends React.Component {
       nextButton: this.props.steps.length > 1 ? true : false,
       previousButton: false,
       paymentButton: false,
+      submittingButton: false,
       finishButton: this.props.steps.length === 1 ? true : false,
       width: width,
       movingTabStyle: {
@@ -127,10 +127,18 @@ class Wizard extends React.Component {
   paymentButtonSubmit() {
     this.setState({
         paymentButton: false,
+        submittingButton: true,
         nextButton: false
     })
-    // this.state.paymentButton = false;
-    // this.state.nextButton = false;
+  }
+  submittingButtonSubmit() {
+    this.setState({
+        paymentButton: false,
+        submittingButton: false,
+        nextButton: false
+    })
+    this.state.paymentButton = false;
+    this.state.nextButton = false;
     if (
       this[this.props.steps[this.state.currentStep].stepId].sendState !==
       undefined
@@ -159,8 +167,6 @@ class Wizard extends React.Component {
         paymentButton: true,
         nextButton: false
       })
-      // this.state.paymentButton = true;
-      // this.state.nextButton = false;
     }
     if (
       (this.props.validate &&
@@ -377,7 +383,7 @@ class Wizard extends React.Component {
               ) : null}
               {this.state.paymentButton ? (
                 <Button
-                form='stripePay'
+                id='stripePay'
                 color="rose"
                 onClick={() => {
                   const submitBtn = document.getElementById('btnStripe');
@@ -386,6 +392,17 @@ class Wizard extends React.Component {
                 className={this.props.nextButtonClasses}
                 >
                   Submit
+                </Button>
+              ) : null}
+              {this.state.submittingButton ? (
+                <Button
+                id='stripeSubmitting'
+                color="rose"
+                onClick={() => {
+                  this.submittingButtonSubmit()}}
+                className={this.props.nextButtonClasses}
+                >
+                  Submitting
                 </Button>
               ) : null}
               {this.state.finishButton ? (

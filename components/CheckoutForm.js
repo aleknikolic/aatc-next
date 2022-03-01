@@ -87,16 +87,11 @@ class Checkout extends React.Component {
     let payerAmount = event.target.payerAmount.value;
     let payerCardName = `${payerFirstName} ${payerLastName}`;
 
-    console.log("check step", formData);
-    console.log("val", event);
-    console.log("get user value", payerCardName);
     const stripeFee = +(payerAmount * 100).toFixed();
     stripe.createToken(this.creditCard).then(({ error, token }) => {
       if (error) {
         this.setState({ cardError: error.message });
       } else {
-        // this.setState({ token: token.id });
-        console.log("stripe token", token.id);
         let trans = {
           amount: stripeFee, //3745,
           source: token.id, //don't send the entire token only the id //
@@ -114,7 +109,6 @@ class Checkout extends React.Component {
             },
           },
         };
-        console.log("trans", trans);
         let url = environment.stripe.charges; //'https://lvngbook-api.azurewebsites.net/api/charges';
         let apiUrl = environment.registrations.charges;
         axios.post(url, trans).then((response) => {
@@ -142,9 +136,9 @@ class Checkout extends React.Component {
               stripeAmount: payerAmount
             },
           };
-          console.log("Data", allData);
           axios.post(apiUrl, allData).then((res) => {
-            console.log("result", res);
+            const submittingBtn = document.getElementById('stripeSubmitting');
+            submittingBtn.click();
           });
         });
       }
