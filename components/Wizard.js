@@ -401,6 +401,7 @@ class Wizard extends React.Component {
                 onClick={() => {
                   this.submittingButtonSubmit()}}
                 className={this.props.nextButtonClasses}
+                disabled={true}
                 >
                   Submitting
                 </Button>
