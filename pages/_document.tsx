@@ -18,9 +18,9 @@ class MyDocument extends Document {
           {/* Fonts and icons */}
           <link
             rel="stylesheet"
-            href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
+            href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
           />
-          <script async src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+          <script async src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
           <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.4/jquery-jvectormap.css"
@@ -95,14 +95,6 @@ MyDocument.getInitialProps = async (ctx) => {
 
   return {
     ...initialProps,
-    // Styles fragment is rendered after the app and page rendering finish.
-    // styles: [
-    //   <React.Fragment key="styles">
-    //     {initialProps.styles}
-    //     {sheets.getStyleElement()}
-    //   </React.Fragment>,
-    // ],
-    
     styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
   };
 };
