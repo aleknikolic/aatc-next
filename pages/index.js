@@ -32,9 +32,9 @@ export default function Home() {
                     stepId: "welcome",
                   },
                   {
-                    stepName: "Registeration",
+                    stepName: "Registration",
                     stepComponent: Step2,
-                    stepId: "registeration",
+                    stepId: "registration",
                   },
                   { stepName: "Type", stepComponent: Step3, stepId: "type" },
                   {

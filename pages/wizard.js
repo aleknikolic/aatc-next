@@ -25,7 +25,7 @@ function WizardView() {
           validate
           steps={[
             { stepName: "Welcome", stepComponent: Step1, stepId: "welcome" },
-            { stepName: "Registeration", stepComponent: Step2, stepId: "registeration" },
+            { stepName: "Registration", stepComponent: Step2, stepId: "registration" },
             { stepName: "Type", stepComponent: Step3, stepId: "type" },
             { stepName: "Payment", stepComponent: Step4, stepId: "payment" },
             { stepName: "Thank You", stepComponent: Step5, stepId: "thankyou" },

@@ -69,12 +69,12 @@ class Checkout extends React.Component {
       isNew = false;
     }
 
-    const registeration = formData.registeration;
-    let company = registeration.company;
-    let firstName = registeration.firstname;
-    let lastName = registeration.lastname;
-    let email = registeration.email;
-    let phone = registeration.phone;
+    const registration = formData.registration;
+    let company = registration.company;
+    let firstName = registration.firstname;
+    let lastName = registration.lastname;
+    let email = registration.email;
+    let phone = registration.phone;
 
     const type = formData.type;
     var keys = Object.keys(type);
