@@ -16,6 +16,8 @@ class Checkout extends React.Component {
   };
 
   componentDidMount() {
+    var key = this.state;
+    console.log("current step",  key);
     const elements = stripe.elements();
     this.creditCard = elements.create("card", {
       style: {
@@ -139,6 +141,7 @@ class Checkout extends React.Component {
           axios.post(apiUrl, allData).then((res) => {
             const submittingBtn = document.getElementById('stripeSubmitting');
             submittingBtn.click();
+            console.log("check state", this.props);
           });
         });
       }
@@ -167,7 +170,7 @@ class Checkout extends React.Component {
         >
           {/* <CardElement options={cardOptions} /> */}
           <StyledIndex>
-            <div className="credit-card" />
+            <div className="credit-card" id="checkCard"/>
             {cardError && <p className="card-error">{cardError}</p>}
             {/* <button
           onClick={() => this.handleSubmit()}

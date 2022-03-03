@@ -39,7 +39,7 @@ const style = {
 };
 
 const Step5 = React.forwardRef((props, ref) => {
-  const [thankyou, setdevelop] = React.useState(false);
+  const thankyou = React.useState(true);
   const sendState = () => {
     return {
       thankyou,
@@ -67,6 +67,7 @@ const Step5 = React.forwardRef((props, ref) => {
               <div className={classes.choiche}>
                 <Checkbox
                   tabIndex={-1}
+                  checked={true}
                   // onClick={() => setthankyou(!thankyou)}
                   checkedIcon={
                     <i aria-hidden
@@ -79,60 +80,12 @@ const Step5 = React.forwardRef((props, ref) => {
                     />
                   }
                   classes={{
-                    checked: classes.iconCheckboxChecked,
+                    checked: classes.thnakyouIconCheckboxChecked,
                     root: classes.iconCheckbox,
                   }}
                 />
-                {/* <h6>New</h6> */}
               </div>
               <FormControl fullWidth className={classes.selectFormControl}>
-                {/* <InputLabel
-                  htmlFor="simple-select-2"
-                  className={classes.selectLabel}
-                >
-                  Choose City
-                </InputLabel> */}
-                {/* <Select
-                  MenuProps={{
-                    className: classes.selectMenu,
-                  }}
-                  classes={{
-                    select: classes.select,
-                  }}
-                  value={simpleSelect}
-                  onChange={handleSimple}
-                  inputProps={{
-                    name: "simpleSelect",
-                    id: "simple-select-2",
-                  }}
-                >
-                  <MenuItem
-                    disabled
-                    classes={{
-                      root: classes.selectMenuItem,
-                    }}
-                  >
-                    Choose City
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected,
-                    }}
-                    value="2"
-                  >
-                    Paris
-                  </MenuItem>
-                  <MenuItem
-                    classes={{
-                      root: classes.selectMenuItem,
-                      selected: classes.selectMenuItemSelected,
-                    }}
-                    value="3"
-                  >
-                    Bucharest
-                  </MenuItem>
-                </Select> */}
               </FormControl>
             </GridItem>
           </GridContainer>

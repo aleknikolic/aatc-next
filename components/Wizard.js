@@ -125,11 +125,21 @@ class Wizard extends React.Component {
     }
   }
   paymentButtonSubmit() {
-    this.setState({
+    var card = document.getElementById("checkCard");
+    if(card.classList.contains('StripeElement--empty') || card.classList.contains('StripeElement--invalid')){
+      this.setState({
+        paymentButton: true,
+        submittingButton: false,
+        nextButton: false
+      })
+    }
+    else{
+      this.setState({
         paymentButton: false,
         submittingButton: true,
         nextButton: false
-    })
+      })
+    }
   }
   submittingButtonSubmit() {
     this.setState({

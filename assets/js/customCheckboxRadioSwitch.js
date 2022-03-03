@@ -153,6 +153,12 @@ const customCheckboxRadioSwitch = {
       borderColor: "#ff9800",
     },
   },
+  thnakyouIconCheckboxChecked: {
+    color: "#50C878 !important",
+    "& > span:first-child": {
+      borderColor: "#50C878",
+    },
+  },
   iconCheckboxIcon: {
     fontSize: "40px",
     lineHeight: "111px",
