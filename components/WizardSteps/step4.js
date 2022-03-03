@@ -73,7 +73,7 @@ const Step4 = React.forwardRef((props, ref) => {
 <GridContainer justify="center" item sm={10} className={classes.outer}>
       <GridItem item={true} xs={12} sm={12}>
         <h4 className={classes.infoText}>
-          Let{"'"}s start with the basic information (with validation)
+         Please enter your payment information
         </h4>
       </GridItem>
       <Elements stripe={stripePromise}>

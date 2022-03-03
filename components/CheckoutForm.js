@@ -196,7 +196,7 @@ class Checkout extends React.Component {
           <Row gutter={12} className="d-flex">
             <Col span={6} className="col-md-6">
               <Form.Item
-                label="Firstname"
+                label="First Name"
                 colon={false}
                 className={styleclass.stripeformitem}
               >
@@ -205,7 +205,7 @@ class Checkout extends React.Component {
             </Col>
             <Col span={6} className="col-md-6">
               <Form.Item
-                label="Lastname"
+                label="Last Name"
                 colon={false}
                 className={styleclass.stripeformitem}
               >
@@ -234,7 +234,7 @@ class Checkout extends React.Component {
             </Col>
           </Row>
           <Form.Item
-            label="Renewel Amount"
+            label="Amount"
             colon={false}
             className={styleclass.stripeformitem}
           >
