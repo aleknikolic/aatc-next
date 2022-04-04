@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
 
@@ -10,103 +10,59 @@ import Card from "../components/Card.js";
 
 import wizardStyle from "../assets/js/wizardStyle.js";
 
-class Wizard extends React.Component {
-  
-  constructor(props) {
-    super(props);
-    var width;
-    if (this.props.steps.length === 1) {
-      width = "100%";
-    } else {
-      // if (window.innerWidth < 600) {
-      //   if (this.props.steps.length !== 3) {
-      //     width = "50%";
-      //   } else {
-      //     width = 100 / 3 + "%";
-      //   }
-      // } else {
-      //   if (this.props.steps.length === 2) {
-      //     width = "50%";
-      //   } else {
-      //     width = 100 / 3 + "%";
-      //   }
-      // }
-    }
-    this.state = {
-      currentStep: 0,
-      color: this.props.color,
-      nextButton: this.props.steps.length > 1 ? true : false,
-      previousButton: false,
-      paymentButton: false,
-      submittingButton: false,
-      finishButton: this.props.steps.length === 1 ? true : false,
-      width: width,
-      movingTabStyle: {
-        transition: "transform 0s",
-      },
-      allStates: {},
-    };
-    this.navigationStepChange = this.navigationStepChange.bind(this);
-    this.refreshAnimation = this.refreshAnimation.bind(this);
-    this.previousButtonClick = this.previousButtonClick.bind(this);
-    this.previousButtonClick = this.previousButtonClick.bind(this);
-    this.finishButtonClick = this.finishButtonClick.bind(this);
-    this.updateWidth = this.updateWidth.bind(this);
+function Wizard({classes, title, subtitle, color, steps, ...props}) {
+
+  var [color, setColor] = useState(color);
+  var [currentStep, setCurrentStep] = useState(0);
+  var [nextButton, setNextButton] = useState(steps.length > 1 ? true : false);
+  var [previousButton, setPreviousButton] = useState(false);
+  var [paymentButton, setPaymentButton] = useState(false);
+  var [submittingButton, setSubmittingButton] = useState(false);
+  var [finishButton, setFinishButton] = useState(steps.length > 1 ? false : true);
+  var [width, setWidth] = useState(steps.length === 1 ? "100%" : "");
+  var [movingTabStyle, setMovingTabStyle] = useState({
+    transition: "transform 0s",
+  });
+  var [allStates, setAllStates] = useState({});
+
+  // methods
+  var wizard = React.createRef();
+  // 
+  function updateWidth() {
+    refreshAnimation(currentStep);
   }
-  wizard = React.createRef();
-  componentDidMount() {
-    this.refreshAnimation(0);
-    window.addEventListener("resize", this.updateWidth);
-  }
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateWidth);
-  }
-  updateWidth() {
-    this.refreshAnimation(this.state.currentStep);
-  }
-  
-  navigationStepChange(key) {
-    if(key === 3){ 
-      if (
-        this[this.props.steps[1].stepId].isValidated !== undefined &&
-        this[this.props.steps[1].stepId].isValidated() === false
-      ) {
-        this.setState({
-          paymentButton: false,
-          nextButton: true
-        })
+  // 
+  function navigationStepChange(key) {
+      if(key === 3){ 
+        if (
+          steps[1].stepId.isValidated !== undefined &&
+          steps[1].stepId.isValidated() === false
+        ) {
+          setPaymentButton(false);
+          setNextButton(true);
+        }
+        else{
+          setPaymentButton(true);
+          setNextButton(false);
+        }
+        
       }
-      else{
-        this.setState({
-          paymentButton: true,
-          nextButton: false
-        })
+      else {
+        setPaymentButton(false);
+        setNextButton(true);
       }
-      
-    }
-    else {
-      this.setState({
-        paymentButton: false,
-        nextButton: true
-      })
-    }
-    if (this.props.steps) {
+    if (props.steps) {
       var validationState = true;
-      if (key > this.state.currentStep) {
-        for (var i = this.state.currentStep; i < key; i++) {
-          if (this[this.props.steps[i].stepId].sendState !== undefined) {
-            this.setState({
-              allStates: {
-                ...this.state.allStates,
-                [this.props.steps[i].stepId]: this[
-                  this.props.steps[i].stepId
-                ].sendState(),
-              },
-            });
+      if (key > currentStep) {
+        for (var i = currentStep; i < key; i++) {
+          if ([steps[i].stepId].sendState !== undefined) {
+            setAllStates({...allStates, [props.steps[i].stepId]: 
+              props.steps[i].stepId
+            .sendState(),})
           }
           if (
-            this[this.props.steps[i].stepId].isValidated !== undefined &&
-            this[this.props.steps[i].stepId].isValidated() === false
+            steps[i].stepId.isValidated !== undefined &&
+            steps[i].stepId.isValidated() === false
           ) {
             validationState = false;
             break;
@@ -114,177 +70,152 @@ class Wizard extends React.Component {
         }
       }
       if (validationState) {
-        this.setState({
-          currentStep: key,
-          nextButton: this.props.steps.length > key + 1 ? true : false,
-          previousButton: key > 0 ? true : false,
-          finishButton: this.props.steps.length === key + 1 ? true : false,
-        });
-        this.refreshAnimation(key);
+        setCurrentStep(key);
+        setNextButton(steps.length > key + 1 ? true : false);
+        setPreviousButton(key > 0 ? true : false);
+        setFinishButton(steps.length === key + 1 ? true : false);
+        refreshAnimation(key);
       }
     }
   }
-  paymentButtonSubmit() {
+  // 
+  function paymentButtonSubmit() {
     var card = document.getElementById("checkCard");
     if(card.classList.contains('StripeElement--empty') || card.classList.contains('StripeElement--invalid')){
-      this.setState({
-        paymentButton: true,
-        submittingButton: false,
-        nextButton: false
-      })
+      setPaymentButton(true);
+      submittingButton(false);
+      nextButton(false);
     }
     else{
-      this.setState({
-        paymentButton: false,
-        submittingButton: true,
-        nextButton: false
-      })
+      setPaymentButton(false);
+      submittingButton(true);
+      nextButton(false);
     }
   }
-  submittingButtonSubmit() {
-    this.setState({
-        paymentButton: false,
-        submittingButton: false,
-        nextButton: false
-    })
-    // this.state.paymentButton = false;
-    // this.state.nextButton = false;
+  // 
+  function submittingButtonSubmit() {
+    setPaymentButton(false);
+    submittingButton(false);
+    nextButton(false);
+
+    // setPaymentButton(false);
+    // nextButton(false);
     if (
-      this[this.props.steps[this.state.currentStep].stepId].sendState !==
+      steps[currentStep].stepId.sendState !==
       undefined
     ) {
-      this.setState({
-        allStates: {
-          ...this.state.allStates,
-          [this.props.steps[this.state.currentStep].stepId]: this[
-            this.props.steps[this.state.currentStep].stepId
-          ].sendState(),
-        },
-      });
-    }
-    var key = this.state.currentStep + 1;
-    this.setState({
-      currentStep: key,
-      nextButton: this.props.steps.length > key + 1 ? true : false,
-      previousButton: key > 0 ? true : false,
-      finishButton: this.props.steps.length === key + 1 ? true : false,
-    });
-    this.refreshAnimation(key);
-  }
-  nextButtonClick() {
-    if(this.state.currentStep === 2) { 
-      this.setState({
-        paymentButton: true,
-        nextButton: false
+      setAllStates({
+        ...allStates,
+        [steps[currentStep].stepId]: 
+        steps[currentStep].stepId
+        .sendState(),
       })
     }
+    var key = currentStep + 1;
+    setCurrentStep(key);
+    setNextButton(steps.length > key + 1 ? true : false);
+    setPreviousButton(key > 0 ? true : false);
+    setFinishButton(steps.length === key + 1 ? true : false)
+    refreshAnimation(key);
+  }
+  // 
+  function nextButtonClick() {
+    if(currentStep === 2) { 
+      setPaymentButton(true);
+      setNextButton(false);
+    }
     if (
-      (this.props.validate &&
-        ((this[this.props.steps[this.state.currentStep].stepId].isValidated !==
+      (props.validate &&
+        (steps[currentStep].stepId.isValidated !==
           undefined &&
-          this[
-            this.props.steps[this.state.currentStep].stepId
-          ].isValidated()) ||
-          this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined)) ||
-      this.props.validate === undefined
+            steps[currentStep].stepId
+          .isValidated()) ||
+          steps[currentStep].stepId.isValidated ===
+            undefined) ||
+      props.validate === undefined
     ) {
       if (
-        this[this.props.steps[this.state.currentStep].stepId].sendState !==
+        steps[currentStep].stepId.sendState !==
         undefined
       ) {
-        this.setState({
-          allStates: {
-            ...this.state.allStates,
-            [this.props.steps[this.state.currentStep].stepId]: this[
-              this.props.steps[this.state.currentStep].stepId
-            ].sendState(),
-          },
-        });
-        
+        setAllStates({
+          ...allStates,
+          [steps[currentStep].stepId]:
+            steps[currentStep].stepId
+          .sendState(),
+        })
       }
-      var key = this.state.currentStep + 1;
-      this.setState({
-        currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
-        previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false,
-      });
-      this.refreshAnimation(key);
+      var key = currentStep + 1;
+      setCurrentStep(key);
+      setNextButton(steps.length > key + 1 ? true : false);
+      setPreviousButton(key > 0 ? true : false);
+      setFinishButton(steps.length === key + 1 ? true : false)
+      refreshAnimation(key);
     }
   }
-  previousButtonClick() {
+  // 
+  function previousButtonClick() {
     if (
-      this[this.props.steps[this.state.currentStep].stepId].sendState !==
+      steps[currentStep].stepId.sendState !==
       undefined
     ) {
-      this.setState({
-        allStates: {
-          ...this.state.allStates,
-          [this.props.steps[this.state.currentStep].stepId]: this[
-            this.props.steps[this.state.currentStep].stepId
-          ].sendState(),
-        },
-      });
+      setAllStates({
+        ...allStates,
+        [steps[currentStep].stepId]: 
+          steps[currentStep].stepId
+        .sendState(),
+      })
     }
-    var key = this.state.currentStep - 1;
+    var key = currentStep - 1;
     if (key >= 0) {
-      this.setState({
-        currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
-        previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false,
-      });
-      this.refreshAnimation(key);
+      setCurrentStep(key);
+      setNextButton(steps.length > key + 1 ? true : false);
+      setPreviousButton(key > 0 ? true : false);
+      setFinishButton(steps.length === key + 1 ? true : false)
+      refreshAnimation(key);
     }
   }
-  finishButtonClick() {
+  // 
+  function finishButtonClick() {
     if (
-      (this.props.validate === false &&
-        this.props.finishButtonClick !== undefined) ||
-      (this.props.validate &&
-        ((this[this.props.steps[this.state.currentStep].stepId].isValidated !==
+      (props.validate === false &&
+        props.finishButtonClick !== undefined) ||
+      (props.validate &&
+        ((steps[currentStep].stepId.isValidated !==
           undefined &&
-          this[
-            this.props.steps[this.state.currentStep].stepId
-          ].isValidated()) ||
-          this[this.props.steps[this.state.currentStep].stepId].isValidated ===
+            steps[currentStep].stepId
+          .isValidated()) ||
+          steps[currentStep].stepId.isValidated ===
             undefined) &&
-        this.props.finishButtonClick !== undefined)
+        props.finishButtonClick !== undefined)
     ) {
-      this.setState(
-        {
-          allStates: {
-            ...this.state.allStates,
-            [this.props.steps[this.state.currentStep].stepId]: this[
-              this.props.steps[this.state.currentStep].stepId
-            ].sendState(),
-          },
-        },
-        () => {
-          this.props.finishButtonClick(this.state.allStates);
-        }
-      );
+      setAllStates({
+        ...allStates,
+        [steps[currentStep].stepId]: 
+          steps[currentStep].stepId
+        .sendState(),
+      })
+        props.finishButtonClick(allStates);
     }
   }
-  refreshAnimation(index) {
-    var total = this.props.steps.length;
+  // 
+  function refreshAnimation(index) {
+    var total = steps.length;
     var li_width = 100 / total;
-    var total_steps = this.props.steps.length;
+    var total_steps = steps.length;
     var move_distance =
-      this.wizard.current.children[0].offsetWidth / total_steps;
+      wizard.current?.children[0].offsetWidth / total_steps;
     var index_temp = index;
     var vertical_level = 0;
 
     var mobile_device = window.innerWidth < 600 && total > 3;
 
     if (mobile_device) {
-      move_distance = this.wizard.current.children[0].offsetWidth / 2;
+      move_distance = wizard.current.children[0].offsetWidth / 2;
       index_temp = index % 2;
       li_width = 50;
     }
-
-    this.setState({ width: li_width + "%" });
+    setWidth(li_width + "%");
 
     var step_width = move_distance;
     move_distance = move_distance * index_temp;
@@ -309,130 +240,143 @@ class Wizard extends React.Component {
         "translate3d(" + move_distance + "px, " + vertical_level + "px, 0)",
       transition: "all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)",
     };
-    this.setState({ movingTabStyle: movingTabStyle });
+    setMovingTabStyle(movingTabStyle);
   }
-  render() {
-    const { classes, title, subtitle, color, steps } = this.props;
-    return (
-      <div className={classes.wizardContainer} ref={this.wizard}>
-        <Card className={classes.card}>
-          <div className={classes.wizardHeader}>
-            <h3 className={classes.title}>{title}</h3>
-            <h5 className={classes.subtitle}>{subtitle}</h5>
-            <p>Please begin by answering the questions below. Payment can be made at the end of the registration form.</p>
-            {/* <p>check</p> */}
 
-          </div>
-          <div className={classes.wizardNavigation}>
-            <ul className={classes.nav}>
-              {steps.map((prop, key) => {
-                return (
-                  <li
-                    className={classes.steps}
-                    key={key}
-                    style={{ width: this.state.width }}
-                  >
-                    <a
-                      href="#"
-                      className={classes.stepsAnchor}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.navigationStepChange(key);
-                      }}
-                    >
-                      {prop.stepName}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
 
-            <div
-              className={classes.movingTab + " " + classes[color]}
-              style={this.state.movingTabStyle}
-            >
-              {steps[this.state.currentStep].stepName}
-            </div>
-          </div>
-          <div className={classes.content}>
+  // lifecyclles
+  useEffect(() => {
+    // componentDidMount
+    refreshAnimation(0);
+    window.addEventListener("resize", updateWidth);
+  
+    return () => {
+      // componentWillUnmount
+      window.removeEventListener("resize", updateWidth);
+    }
+  }, [])
+  return (
+    <div className={classes.wizardContainer} ref={wizard}>
+      <Card className={classes.card}>
+        <div className={classes.wizardHeader}>
+          <h3 className={classes.title}>{title}</h3>
+          <h5 className={classes.subtitle}>{subtitle}</h5>
+          <p>Please begin by answering the questions below. Payment can be made at the end of the registration form.</p>
+          {/* <p>check</p> */}
+
+        </div>
+        <div className={classes.wizardNavigation}>
+          <ul className={classes.nav}>
             {steps.map((prop, key) => {
-              const stepContentClasses = cx({
-                [classes.stepContentActive]: this.state.currentStep === key,
-                [classes.stepContent]: this.state.currentStep !== key,
-              });
               return (
-                <div className={stepContentClasses} key={key}>
-                  <prop.stepComponent
-                    innerRef={(node) => (this[prop.stepId] = node)}
-                    allStates={this.state.allStates}
-                  />
-                </div>
+                <li
+                  className={classes.steps}
+                  key={key}
+                  style={{ width: width }}
+                >
+                  <a
+                    href="#"
+                    className={classes.stepsAnchor}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigationStepChange(key);
+                    }}
+                  >
+                    {prop.stepName}
+                  </a>
+                </li>
               );
             })}
+          </ul>
+
+          <div
+            className={classes.movingTab + " " + classes[color]}
+            style={movingTabStyle}
+          >
+            {steps[currentStep].stepName}
           </div>
-          <div className={classes.footer}>
-            <div className={classes.left}>
-              {this.state.previousButton ? (
-                <Button
-                  className={this.props.previousButtonClasses}
-                  onClick={() => this.previousButtonClick()}
-                >
-                  {this.props.previousButtonText}
-                </Button>
-              ) : null}
-            </div>
-            <div className={classes.right}>
-              {!this.state.paymentButton && this.state.nextButton ? (
-                <Button
-                  color="rose"
-                  className={this.props.nextButtonClasses}
-                  onClick={() => this.nextButtonClick()}
-                >
-                  {this.props.nextButtonText}
-                </Button>
-              ) : null}
-              {this.state.paymentButton ? (
-                <Button
-                id='stripePay'
-                color="rose"
-                onClick={() => {
-                  const submitBtn = document.getElementById('btnStripe');
-                  submitBtn.click();
-                  this.paymentButtonSubmit()}}
-                className={this.props.nextButtonClasses}
-                >
-                  Submit
-                </Button>
-              ) : null}
-              {this.state.submittingButton ? (
-                <Button
-                id='stripeSubmitting'
-                color="rose"
-                onClick={() => {
-                  this.submittingButtonSubmit()}}
-                className={this.props.nextButtonClasses}
-                disabled={true}
-                >
-                  Submitting
-                </Button>
-              ) : null}
-              {this.state.finishButton ? (
-                <Button
-                  color="rose"
-                  className={this.finishButtonClasses}
-                  onClick={() => this.finishButtonClick()}
-                >
-                  {this.props.finishButtonText}
-                </Button>
-              ) : null}
-            </div>
-            <div className={classes.clearfix} />
+        </div>
+        <div className={classes.content}>
+          {steps.map((prop, key) => {
+            const stepContentClasses = cx({
+              [classes.stepContentActive]: currentStep === key,
+              [classes.stepContent]: currentStep !== key,
+            });
+            return (
+              <div className={stepContentClasses} key={key}>
+                <prop.stepComponent
+                  innerRef={(node) => (prop.stepId = node)}
+                  allStates={allStates}
+                />
+              </div>
+            );
+          })}
+        </div>
+        <div className={classes.footer}>
+          <div className={classes.left}>
+            {previousButton ? (
+              <Button
+                className={props.previousButtonClasses}
+                onClick={() => previousButtonClick()}
+              >
+                {props.previousButtonText}
+              </Button>
+            ) : null}
           </div>
-        </Card>
-      </div>
-    );
-  }
+          <div className={classes.right}>
+            {!paymentButton && nextButton ? (
+              <Button
+                color="rose"
+                className={props.nextButtonClasses}
+                onClick={() => nextButtonClick()}
+              >
+                {props.nextButtonText}
+              </Button>
+            ) : null}
+            {paymentButton ? (
+              <Button
+              id='stripePay'
+              color="rose"
+              onClick={() => {
+                const submitBtn = document.getElementById('btnStripe');
+                console.log(submitBtn);
+                submitBtn.click();
+                paymentButtonSubmit()}}
+              className={props.nextButtonClasses}
+              >
+                Submit
+              </Button>
+            ) : null}
+            {submittingButton ? (
+              <Button
+              id='stripeSubmitting'
+              color="rose"
+              onClick={() => {
+                submittingButtonSubmit()}}
+              className={props.nextButtonClasses}
+              disabled={true}
+              >
+                Submitting
+              </Button>
+            ) : null}
+            {finishButton ? (
+              <Button
+                color="rose"
+                className={props.finishButtonClasses}
+                onClick={() => finishButtonClick()}
+              >
+                {props.finishButtonText}
+              </Button>
+            ) : null}
+          </div>
+          <div className={classes.clearfix} />
+        </div>
+      </Card>
+    </div>
+  );
 }
+
+
 
 Wizard.defaultProps = {
   color: "rose",
