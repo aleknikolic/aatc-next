@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState, forwardRef, useImperativeHandle} from "react";
 import PropTypes from "prop-types";
 // @material-ui/icons
 import Face from "@material-ui/icons/Face";
@@ -31,17 +31,17 @@ const style = {
   },
 };
 
-const Step2 = React.forwardRef((props, ref) => {
-  const [company, setcompany] = React.useState("");
-  const [companyState, setcompanyState] = React.useState("");
-  const [firstname, setfirstname] = React.useState("");
-  const [firstnameState, setfirstnameState] = React.useState("");
-  const [lastname, setlastname] = React.useState("");
-  const [lastnameState, setlastnameState] = React.useState("");
-  const [email, setemail] = React.useState("");
-  const [emailState, setemailState] = React.useState("");
-  const [phone, setphone] = React.useState("");
-  const [phoneState, setphoneState] = React.useState("");
+const Step2 = forwardRef((props, ref) => {
+  const [company, setcompany] = useState("");
+  const [companyState, setcompanyState] = useState("");
+  const [firstname, setfirstname] = useState("");
+  const [firstnameState, setfirstnameState] = useState("");
+  const [lastname, setlastname] = useState("");
+  const [lastnameState, setlastnameState] = useState("");
+  const [email, setemail] = useState("");
+  const [emailState, setemailState] = useState("");
+  const [phone, setphone] = useState("");
+  const [phoneState, setphoneState] = useState("");
   const stateFunctions = {
     setemailState: (value) => setemailState(value),
     setemail: (value) => setemail(value),
@@ -135,7 +135,7 @@ const Step2 = React.forwardRef((props, ref) => {
     }
     return false;
   };
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     isValidated: () => {
       return isValidated();
     },

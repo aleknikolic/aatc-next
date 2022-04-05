@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState, forwardRef, useImperativeHandle} from "react";
 import PropTypes from "prop-types";
 // @material-ui/core components
 
@@ -38,8 +38,8 @@ const style = {
   ...customCheckboxRadioSwitch,
 };
 
-const Step5 = React.forwardRef((props, ref) => {
-  const thankyou = React.useState(true);
+const Step5 = forwardRef((props, ref) => {
+  const thankyou = useState(true);
   const sendState = () => {
     return {
       thankyou,
@@ -48,7 +48,7 @@ const Step5 = React.forwardRef((props, ref) => {
   const isValidated = () => {
     return true;
   };
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     isValidated: () => {
       return isValidated();
     },

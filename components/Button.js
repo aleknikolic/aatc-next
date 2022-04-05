@@ -1,4 +1,4 @@
-import React from "react";
+import React, {forwardRef} from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // nodejs library to set properties for components
@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 
 import styles from "../assets/js/buttonStyle.js";
 
-const RegularButton = React.forwardRef((props, ref) => {
+const RegularButton = forwardRef((props, ref) => {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const {

@@ -24,7 +24,6 @@ function Wizard({classes, title, subtitle, color, steps, ...props}) {
     transition: "transform 0s",
   });
   var [allStates, setAllStates] = useState({});
-
   // methods
   var wizard = React.createRef();
   // 

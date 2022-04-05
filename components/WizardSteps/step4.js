@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState, forwardRef, useImperativeHandle} from "react";
 import PropTypes from "prop-types";
 
 // @material-ui/core components
@@ -33,9 +33,9 @@ const style = {
   },
 };
 
-const Step4 = React.forwardRef((props, ref) => {
-  const [stripe, setstripe] = React.useState("");
-  const [stripeState, setstripeState] = React.useState("");
+const Step4 = forwardRef((props, ref) => {
+  const [stripe, setstripe] = useState("");
+  const [stripeState, setstripeState] = useState("");
   const stateFunctions = {
     setstripeState: (value) => setstripeState(value),
     setstripe: (value) => setstripe(value),
@@ -46,6 +46,7 @@ const Step4 = React.forwardRef((props, ref) => {
       stripeState,
     };
   };
+  // console.log("step4",props);
   // function that returns true if value is email, false otherwise
   const isValidated = () => {
     if (
@@ -59,7 +60,7 @@ const Step4 = React.forwardRef((props, ref) => {
     }
     return false;
   };
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     isValidated: () => {
       return isValidated();
     },
@@ -68,7 +69,6 @@ const Step4 = React.forwardRef((props, ref) => {
     },
   }));
   const { classes } = props;
-  const formdata = props.allStates;
   return (
 <GridContainer justify="center" item sm={10} className={classes.outer}>
       <GridItem item={true} xs={12} sm={12}>
@@ -80,7 +80,7 @@ const Step4 = React.forwardRef((props, ref) => {
         <CheckoutForm
         success={stripeState === "success"}
         error={stripeState === "error"}
-        formdata={formdata}
+        formdata={props.allStates}
         />
       </Elements>
 </GridContainer>
