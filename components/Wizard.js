@@ -10,20 +10,22 @@ import Card from "../components/Card.js";
 
 import wizardStyle from "../assets/js/wizardStyle.js";
 
-function Wizard({classes, title, subtitle, color, steps, ...props}) {
-
+function Wizard(props) {
+  var {classes, title, subtitle, color, steps} = props;
+console.log(steps);
   var [color, setColor] = useState(color);
   var [currentStep, setCurrentStep] = useState(0);
   var [nextButton, setNextButton] = useState(steps.length > 1 ? true : false);
   var [previousButton, setPreviousButton] = useState(false);
   var [paymentButton, setPaymentButton] = useState(false);
   var [submittingButton, setSubmittingButton] = useState(false);
-  var [finishButton, setFinishButton] = useState(steps.length > 1 ? false : true);
+  var [finishButton, setFinishButton] = useState(steps.length === 1 ? true : false);
   var [width, setWidth] = useState(steps.length === 1 ? "100%" : "");
   var [movingTabStyle, setMovingTabStyle] = useState({
     transition: "transform 0s",
   });
   var [allStates, setAllStates] = useState({});
+  // console.log("allState",allStates);
   // methods
   var wizard = React.createRef();
   // 
@@ -50,13 +52,13 @@ function Wizard({classes, title, subtitle, color, steps, ...props}) {
         setPaymentButton(false);
         setNextButton(true);
       }
-    if (props.steps) {
+    if (steps) {
       var validationState = true;
       if (key > currentStep) {
         for (var i = currentStep; i < key; i++) {
           if ([steps[i].stepId].sendState !== undefined) {
-            setAllStates({...allStates, [props.steps[i].stepId]: 
-              props.steps[i].stepId
+            setAllStates({...allStates, [steps[i].stepId]: 
+              steps[i].stepId
             .sendState(),})
           }
           if (
@@ -123,8 +125,7 @@ function Wizard({classes, title, subtitle, color, steps, ...props}) {
       setPaymentButton(true);
       setNextButton(false);
     }
-    if (
-      (props.validate &&
+    if ((props.validate &&
         (steps[currentStep].stepId.isValidated !==
           undefined &&
             steps[currentStep].stepId
