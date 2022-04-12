@@ -10,13 +10,13 @@ import StyledIndex from "../pages/stripe.css.js";
 
 
 const Checkout = forwardRef((props, ref) => {
-
-
+const [creditCard, setCreditCard] = useState("")
     const [token, setToken] = useState('');
     const [cardError, setCardError] = useState('');
     const [amount, setAmount] = useState('');
 
-    const elements = useElements();
+    // const elements = useElements();
+    // console.log(elements);
 
     // const creditCard = elements.create("card", {
     //     style: {
@@ -48,7 +48,6 @@ const Checkout = forwardRef((props, ref) => {
         var keys = Object.keys(type);
         var filteredtypes = keys.filter((key) => { return type[key] });
         filteredtypes = filteredtypes.toString();
-    
         let payerCompany = event.target.payerCompany.value;
         let payerFirstName = event.target.payerFirstName.value;
         let payerLastName = event.target.payerLastName.value;
@@ -80,7 +79,7 @@ const Checkout = forwardRef((props, ref) => {
               },
             };
             let url = environment.stripe.charges; //'https://lvngbook-api.azurewebsites.net/api/charges';
-            let apiUrl = environment.registrations.charges;
+            let apiUrl = environment.registrations.charges; //'https://cvdo-register-api.azurewebsites.net/api/registrations'
             axios.post(url, trans).then((response) => {
               let resData = response.data;
               let stripeId = resData.id;
@@ -110,6 +109,7 @@ const Checkout = forwardRef((props, ref) => {
                 const submittingBtn = document.getElementById('stripeSubmitting');
                 submittingBtn.click();
                 console.log("check state", props);
+                console.log("registrations", res);
               });
             });
           }
@@ -118,7 +118,7 @@ const Checkout = forwardRef((props, ref) => {
 
     useEffect(() => {
     //   componentDidMount
-    const elements = stripe.elements();
+    const elements = stripe?.elements();
     const creditCard = elements.create("card", {
       style: {
         base: {
@@ -126,6 +126,7 @@ const Checkout = forwardRef((props, ref) => {
         },
       },
     });
+    setCreditCard(creditCard);
 
         /// Calculate the subsription amount based on the current date ///
     
@@ -196,7 +197,7 @@ const Checkout = forwardRef((props, ref) => {
             colon={false}
             className={styleclass.stripeformitem}
           >
-            <Input name="payerCompany" />
+            <Input name="payerCompany" value={props.formdata?.registration?.company} disabled={true}/>
           </Form.Item>
           <Input.Group>
             <Row gutter={12} className="d-flex">
@@ -206,7 +207,7 @@ const Checkout = forwardRef((props, ref) => {
                   colon={false}
                   className={styleclass.stripeformitem}
                 >
-                  <Input name="payerFirstName" />
+                  <Input name="payerFirstName" value={props.formdata?.registration?.firstname} disabled={true}/>
                 </Form.Item>
               </Col>
               <Col span={6} className="col-md-6">
@@ -215,7 +216,7 @@ const Checkout = forwardRef((props, ref) => {
                   colon={false}
                   className={styleclass.stripeformitem}
                 >
-                  <Input name="payerLastName" />
+                  <Input name="payerLastName" value={props.formdata?.registration?.lastname} disabled={true}/>
                 </Form.Item>
               </Col>
             </Row>
@@ -226,7 +227,7 @@ const Checkout = forwardRef((props, ref) => {
                   colon={false}
                   className={styleclass.stripeformitem}
                 >
-                  <Input name="payerEmail" />
+                  <Input name="payerEmail" value={props.formdata?.registration?.email} disabled={true}/>
                 </Form.Item>
               </Col>
               <Col span={6} className="col-md-6">
@@ -235,7 +236,7 @@ const Checkout = forwardRef((props, ref) => {
                   colon={false}
                   className={styleclass.stripeformitem}
                 >
-                  <Input name="payerPhone" />
+                  <Input name="payerPhone" disabled={true}  value={props.formdata?.registration?.phone}/>
                 </Form.Item>
               </Col>
             </Row>

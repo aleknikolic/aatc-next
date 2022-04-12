@@ -46,7 +46,6 @@ const Step4 = forwardRef((props, ref) => {
       stripeState,
     };
   };
-  // console.log("step4",props);
   // function that returns true if value is email, false otherwise
   const isValidated = () => {
     if (

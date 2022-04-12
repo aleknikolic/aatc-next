@@ -10,9 +10,8 @@ import Card from "../components/Card.js";
 
 import wizardStyle from "../assets/js/wizardStyle.js";
 
-function Wizard(props) {
-  var {classes, title, subtitle, color, steps} = props;
-console.log(steps);
+function Wizard({classes, title, subtitle, color, steps, ...props}) {
+
   var [color, setColor] = useState(color);
   var [currentStep, setCurrentStep] = useState(0);
   var [nextButton, setNextButton] = useState(steps.length > 1 ? true : false);
@@ -25,9 +24,8 @@ console.log(steps);
     transition: "transform 0s",
   });
   var [allStates, setAllStates] = useState({});
-  // console.log("allState",allStates);
   // methods
-  var wizard = React.createRef();
+  var wizard = React.useRef();
   // 
   function updateWidth() {
     refreshAnimation(currentStep);
@@ -56,10 +54,10 @@ console.log(steps);
       var validationState = true;
       if (key > currentStep) {
         for (var i = currentStep; i < key; i++) {
-          if ([steps[i].stepId].sendState !== undefined) {
-            setAllStates({...allStates, [steps[i].stepId]: 
-              steps[i].stepId
-            .sendState(),})
+          if (steps[i].stepId.sendState !== undefined) {
+            setAllStates(prevState => {
+              return {...prevState, [steps[currentStep].stepName.toLowerCase()] : steps[currentStep].stepId.sendState() }
+            })
           }
           if (
             steps[i].stepId.isValidated !== undefined &&
@@ -84,20 +82,20 @@ console.log(steps);
     var card = document.getElementById("checkCard");
     if(card.classList.contains('StripeElement--empty') || card.classList.contains('StripeElement--invalid')){
       setPaymentButton(true);
-      submittingButton(false);
-      nextButton(false);
+      setSubmittingButton(false);
+      setNextButton(false);
     }
     else{
       setPaymentButton(false);
-      submittingButton(true);
-      nextButton(false);
+      setSubmittingButton(true);
+      setNextButton(false);
     }
   }
   // 
   function submittingButtonSubmit() {
     setPaymentButton(false);
-    submittingButton(false);
-    nextButton(false);
+    setSubmittingButton(false);
+    setNextButton(false);
 
     // setPaymentButton(false);
     // nextButton(false);
@@ -105,11 +103,8 @@ console.log(steps);
       steps[currentStep].stepId.sendState !==
       undefined
     ) {
-      setAllStates({
-        ...allStates,
-        [steps[currentStep].stepId]: 
-        steps[currentStep].stepId
-        .sendState(),
+      setAllStates(prevState => {
+        return {...prevState, [steps[currentStep].stepName.toLowerCase()] : steps[currentStep].stepId.sendState() }
       })
     }
     var key = currentStep + 1;
@@ -138,11 +133,8 @@ console.log(steps);
         steps[currentStep].stepId.sendState !==
         undefined
       ) {
-        setAllStates({
-          ...allStates,
-          [steps[currentStep].stepId]:
-            steps[currentStep].stepId
-          .sendState(),
+        setAllStates(prevState => {
+          return {...prevState, [steps[currentStep].stepName.toLowerCase()] : steps[currentStep].stepId.sendState() }
         })
       }
       var key = currentStep + 1;
@@ -159,11 +151,8 @@ console.log(steps);
       steps[currentStep].stepId.sendState !==
       undefined
     ) {
-      setAllStates({
-        ...allStates,
-        [steps[currentStep].stepId]: 
-          steps[currentStep].stepId
-        .sendState(),
+      setAllStates(prevState => {
+        return {...prevState, [steps[currentStep].stepName.toLowerCase()] : steps[currentStep].stepId.sendState() }
       })
     }
     var key = currentStep - 1;
@@ -189,11 +178,8 @@ console.log(steps);
             undefined) &&
         props.finishButtonClick !== undefined)
     ) {
-      setAllStates({
-        ...allStates,
-        [steps[currentStep].stepId]: 
-          steps[currentStep].stepId
-        .sendState(),
+      setAllStates(prevState => {
+        return {...prevState, [steps[currentStep].stepName.toLowerCase()] : steps[currentStep].stepId.sendState() }
       })
         props.finishButtonClick(allStates);
     }
@@ -204,7 +190,7 @@ console.log(steps);
     var li_width = 100 / total;
     var total_steps = steps.length;
     var move_distance =
-      wizard.current?.children[0].offsetWidth / total_steps;
+      wizard.current.children[0].offsetWidth / total_steps;
     var index_temp = index;
     var vertical_level = 0;
 
@@ -339,7 +325,6 @@ console.log(steps);
               color="rose"
               onClick={() => {
                 const submitBtn = document.getElementById('btnStripe');
-                console.log(submitBtn);
                 submitBtn.click();
                 paymentButtonSubmit()}}
               className={props.nextButtonClasses}
