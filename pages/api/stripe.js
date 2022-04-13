@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-const stripe = new Stripe("pk_test_c8V2s9WTAzMvx814xcIc8OFD");
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 export default async (req, res) => {
   if (req.method === "POST") {

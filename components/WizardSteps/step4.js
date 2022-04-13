@@ -1,4 +1,4 @@
-import React,{useState, forwardRef, useImperativeHandle} from "react";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 
 // @material-ui/core components
@@ -10,11 +10,11 @@ import GridContainer from "../Grid/GridContainer.js";
 import GridItem from "../Grid/GridItem.js";
 
 
-import {Elements} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '../CheckoutForm.js';
 
-const stripePromise = loadStripe('pk_test_c8V2s9WTAzMvx814xcIc8OFD'); 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const style = {
   infoText: {
@@ -69,20 +69,20 @@ const Step4 = forwardRef((props, ref) => {
   }));
   const { classes } = props;
   return (
-<GridContainer justify="center" item sm={10} className={classes.outer}>
+    <GridContainer justify="center" item sm={10} className={classes.outer}>
       <GridItem item={true} xs={12} sm={12}>
         <h4 className={classes.infoText}>
-         Please enter your payment information
+          Please enter your payment information
         </h4>
       </GridItem>
       <Elements stripe={stripePromise}>
         <CheckoutForm
-        success={stripeState === "success"}
-        error={stripeState === "error"}
-        formdata={props.allStates}
+          success={stripeState === "success"}
+          error={stripeState === "error"}
+          formdata={props.allStates}
         />
       </Elements>
-</GridContainer>
+    </GridContainer>
   );
 });
 

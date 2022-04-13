@@ -1,7 +1,7 @@
 const settings = {
-    stripe: {
-      publishableKey: "pk_test_c8V2s9WTAzMvx814xcIc8OFD",
-    },
-  };
-  
-  export default settings;
+  stripe: {
+    publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+  },
+};
+
+export default settings;

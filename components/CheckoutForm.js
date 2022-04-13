@@ -119,7 +119,7 @@ const [creditCard, setCreditCard] = useState("")
     useEffect(() => {
     //   componentDidMount
     const elements = stripe?.elements();
-    const creditCard = elements.create("card", {
+    const creditCard = elements?.create("card", {
       style: {
         base: {
         //   fontSize: "18px",
